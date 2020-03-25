@@ -1,0 +1,55 @@
+#ignore all file expect which meet the rule below
+*
+
+!*/
+!/.gitignore
+#clang-format
+!*clang-format*
+
+#enable cpp files
+!*.cc
+!*.hpp
+!*.cpp
+!*.h
+
+#enable go files
+!*.go
+
+#enable python files
+!*.py
+
+#enable ahk files
+!*.ahk
+
+#enable res files
+!*.jpg
+!*.png
+!*.gif
+
+#enable qt files
+!*.ui
+!*.qrc
+
+#enable doc files
+!*.md
+
+#enable project files
+!*Makefile
+!*makefile
+!*.pro
+!*.pri
+!*.sln
+!*.cmake
+!*CMakeLists.txt
+
+
+#igore qt generate files
+ui*.h
+*moc*.h
+*qrc*.cpp
+
+*[Dd]ebug
+*[Rr]elease
+*[Bb]uild
+[Bb]uild*
+[Oo]ut
