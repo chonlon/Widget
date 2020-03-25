@@ -34,6 +34,7 @@
 !*.md
 
 #enable project files
+!*.vcxproj
 !*Makefile
 !*makefile
 !*.pro

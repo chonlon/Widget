@@ -1,7 +1,7 @@
 ﻿#ifndef LON_TITLEBAR
 #define LON_TITLEBAR
 
-#include "button.hpp"
+#include "button.h"
 #include <QApplication>
 #include <QEvent>
 #include <QHBoxLayout>

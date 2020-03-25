@@ -1,7 +1,7 @@
 ﻿#ifndef LON_MESSAGEBOX
 #define LON_MESSAGEBOX
 
-#include "../lon_widget/widget.hpp"
+#include "widget.h"
 
 #include <QMessageBox>
 
