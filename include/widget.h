@@ -79,7 +79,7 @@ public:
     // this class will take pixmap's ownship
     virtual void setTitleBackground(QPixmap* pixmap);
 
-    virtual void enabelSizeGrip();
+    virtual void enableSizeGrip();
 
     virtual bool sizeGripEnabled();
 

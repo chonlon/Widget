@@ -143,7 +143,7 @@ public:
     }
 
 
-    void enabelSizeGrip() {
+    void enableSizeGrip() {
         size_girp_enabled = true;
         size_grip_ = new QSizeGrip(parent_);
         size_grip_->setFixedSize(size_grip_->sizeHint());
