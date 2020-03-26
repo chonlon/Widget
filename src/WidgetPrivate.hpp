@@ -86,13 +86,12 @@ public:
         bottom_bar_->setLayout(bottom_layout);
     }
 
-    void initConnect() {
-        // todo use new style connect.
-        connect(ok_button_, SIGNAL(clicked()), this, SLOT(onOkButtonClicked()));
-        connect(cancel_button_, SIGNAL(clicked()), this, SLOT(onCancelButtonClicked()));
-        connect(title_bar_, SIGNAL(minimizeButtonClicked()), this, SIGNAL(minimizeButtonClicked()));
-        connect(title_bar_, SIGNAL(maximizeButtonClicked()), this, SIGNAL(maximizeButtonClicked()));
-        connect(title_bar_, SIGNAL(closeButtonClicked()), this, SIGNAL(closeButtonClicked()));
+    void initConnect() const {
+        connect(ok_button_, &QPushButton::clicked, parent_, &Widget::onOkButtonClicked);
+        connect(cancel_button_, &QPushButton::clicked, parent_, &Widget::onCancelButtonClicked);
+        connect(title_bar_, &TitleBar::minimizeButtonClicked, parent_, &Widget::minimizeButtonClicked);
+        connect(title_bar_, &TitleBar::maximizeButtonClicked, parent_, &Widget::maximizeButtonClicked);
+        connect(title_bar_, &TitleBar::closeButtonClicked, parent_, &Widget::closeButtonClicked);
     }
 
     void initWidgets() {
@@ -102,7 +101,7 @@ public:
         title_bar_->setPalette(palette);
     }
 
-    void paintEvent(QPaintEvent* event) {
+    void paintEvent(QPaintEvent* event) const {
         QPainter painter(parent_);
         if (pixmap_)
             painter.drawPixmap(QRect{0, 0, parent_->width(), parent_->height()}, *pixmap_);
@@ -131,15 +130,15 @@ public:
         return true;
     }
 
-    void setTitle(const QString& title) {
+    void setTitle(const QString& title) const {
         title_bar_->setTitle(title);
     }
 
-    void setTitleIcon(const QIcon& icon) {
+    void setTitleIcon(const QIcon& icon) const {
         title_bar_->setTitleIcon(icon);
     }
 
-    void setTitleBackground(QPixmap* pixmap) {
+    void setTitleBackground(QPixmap* pixmap) const {
         title_bar_->setBackground(pixmap);
     }
 
@@ -162,15 +161,15 @@ public:
         parent_->updateBackground();
     }
 
-    void setMinFunc(std::function<void()> val) {
+    void setMinFunc(std::function<void()>&& val) const {
         title_bar_->setMinFunc(val);
     }
 
-    void setMaxFunc(std::function<void()> val) {
+    void setMaxFunc(std::function<void()>&& val) const {
         title_bar_->setMaxFunc(val);
     }
 
-    void setCloseFunc(std::function<void()> val) {
+    void setCloseFunc(std::function<void()>&& val) const {
         title_bar_->setCloseFunc(val);
     }
 };
