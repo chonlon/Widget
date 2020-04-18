@@ -49,9 +49,9 @@ protected:
     void paintEvent(QPaintEvent* event) override;
 
 public:
-    explicit Window(QWidget* parent = nullptr, TitleBar::Buttons status = TitleBar::ALL);
+    explicit Window(QWidget* parent = nullptr, TitleBar::Buttons status = TitleBar::Buttons::ALL);
 
-    explicit Window(std::unique_ptr<QWidget> center_widget, QWidget* parent, TitleBar::Buttons status = TitleBar::ALL);
+    explicit Window(std::unique_ptr<QWidget> center_widget, QWidget* parent, TitleBar::Buttons status = TitleBar::Buttons::ALL);
 
     ~Window() override;
 

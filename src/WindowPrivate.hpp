@@ -2,9 +2,7 @@
 #include "button.h"
 #include "titlebar.h"
 #include <QGraphicsDropShadowEffect>
-#include <QHBoxLayout>
 #include <QSizeGrip>
-#include <QVBoxLayout>
 #include <QtWidgets>
 #include <Window.h>
 

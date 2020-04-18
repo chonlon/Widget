@@ -76,7 +76,7 @@ private:
         }
     }
 
-    void initWidgets(int32_t button) {
+    void initWidgets(uint32_t button) {
         const char minn = 4;
         const char maxn = 2;
 
@@ -133,7 +133,7 @@ private:
         title_label_->setObjectName("titleLable");
     }
 
-    void initLayout(int32_t button) {
+    void initLayout(uint32_t button) {
         const char minn = 4;
         const char maxn = 2;
         title_bar_layout_ = new QHBoxLayout(this);
@@ -153,7 +153,7 @@ private:
         this->setLayout(title_bar_layout_);
     }
 
-    void initConnection(int32_t button) {
+    void initConnection(uint32_t button) {
         const char minn = 4;
         const char maxn = 2;
 
@@ -164,7 +164,7 @@ private:
         connect(pclose_button_, SIGNAL(clicked(bool)), this, SLOT(onButtonClicked()));
     }
 
-    void initMaxIcons(int32_t button) {
+    void initMaxIcons(uint32_t button) {
         const char maxn = 2;
         if ((button & maxn) != maxn)
             return;
@@ -245,15 +245,15 @@ protected:
     }
 
 public:
-    /// 标题栏的按钮状态
+    // 标题栏的按钮状态
     // 二进制最后一位为1表示close开
     // 倒数第二位为1表示max开
     // 倒数第三位为1表示min开
-    enum Buttons { CLOSE = 1, CLOSE_MAX = 3, CLOSE_MIN = 5, ALL = 7 };
+    enum class Buttons { CLOSE = 1, CLOSE_MAX = 3, CLOSE_MIN = 5, ALL = 7 };
 
     /// <summary> parent不能为空. </summary>
     /// <param name: button> 用于选择最大化以及最小化按钮是否添加. </param>
-    explicit TitleBar(QWidget* parent, Buttons button = ALL) : QWidget(parent) {
+    explicit TitleBar(QWidget* parent, Buttons button = Buttons::ALL) : QWidget(parent) {
         assert(parent && "the parent of titlebar cannot be empty");
 
         is_pressed_ = false;
@@ -261,10 +261,11 @@ public:
 
         this->resize(parent->width(), TITLE_BAR_HEIGHT);
         this->setFixedHeight(TITLE_BAR_HEIGHT);
-        initMaxIcons(button);
-        initWidgets(button);
-        initLayout(button);
-        initConnection(button);
+        auto _button = static_cast<uint32_t>(button);
+        initMaxIcons(_button);
+        initWidgets(_button);
+        initLayout(_button);
+        initConnection(_button);
 
         min_func_ = std::bind(
             [](QWidget* widget) {
