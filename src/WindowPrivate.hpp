@@ -6,19 +6,19 @@
 #include <QSizeGrip>
 #include <QVBoxLayout>
 #include <QtWidgets>
-#include <widget.h>
+#include <Window.h>
 
-using lon::Widget;
+using lon::Window;
 using lon::TitleBar;
 using lon::Button;
 using std::unique_ptr;
 
-class WidgetPrivate : QObject {
+class WindowPrivate : QObject {
 Q_OBJECT
 private:
-    Widget* parent_;
+    Window* parent_;
 public:
-    WidgetPrivate(Widget* parent)
+    WindowPrivate(Window* parent)
         : parent_{parent} {
     }
 
@@ -46,13 +46,13 @@ public:
             title_bar_.get(),
             &TitleBar::minimizeButtonClicked,
             parent_,
-            &Widget::minimizeButtonClicked);
+            &Window::minimizeButtonClicked);
         connect(
             title_bar_.get(),
             &TitleBar::maximizeButtonClicked,
             parent_,
-            &Widget::maximizeButtonClicked);
-        connect(title_bar_.get(), &TitleBar::closeButtonClicked, parent_, &Widget::closeButtonClicked);
+            &Window::maximizeButtonClicked);
+        connect(title_bar_.get(), &TitleBar::closeButtonClicked, parent_, &Window::closeButtonClicked);
     }
 
     void initWidgets() {

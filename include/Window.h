@@ -5,7 +5,7 @@
 #include <memory>
 #include <QSizeGrip>
 #include <QGraphicsDropShadowEffect>
-class WidgetPrivate;
+class WindowPrivate;
 class QLayout;
 
 namespace lon {
@@ -22,11 +22,11 @@ namespace lon {
 ///	</summary>
 
 
-class Widget : public QWidget {
+class Window : public QWidget {
     Q_OBJECT
 private:
-    friend class WidgetPrivate;
-    std::unique_ptr<WidgetPrivate> data_;
+    friend class WindowPrivate;
+    std::unique_ptr<WindowPrivate> data_;
 
 private:
     // 禁用setlayout, 只允许操作centerWidget和botttomWidget.
@@ -49,11 +49,11 @@ protected:
     void paintEvent(QPaintEvent* event) override;
 
 public:
-    explicit Widget(QWidget* parent = nullptr, TitleBar::Buttons status = TitleBar::ALL);
+    explicit Window(QWidget* parent = nullptr, TitleBar::Buttons status = TitleBar::ALL);
 
-    explicit Widget(QWidget* center_widget, QWidget* parent);
+    explicit Window(QWidget* center_widget, QWidget* parent);
 
-    virtual ~Widget();
+    ~Window() override;
 
     /// <summary> 返回中间栏的widget指针. </summary>
     QWidget* centerWidget() const;

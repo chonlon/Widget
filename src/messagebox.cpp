@@ -2,7 +2,7 @@
 
 using namespace lon;
 MessageBox::MessageBox(const QString& title, const QString& message, QWidget* parent)
-    : Widget(parent) {
+    : Window(parent) {
     setTitle(title);
 
     text_label_p_ = new QLabel(this);
@@ -16,7 +16,6 @@ MessageBox::MessageBox(const QString& title, const QString& message, QWidget* pa
     centerWidget()->setLayout(center_layout_p_);
 
     this->setWindowFlag(Qt::Dialog);
-    //this->setCloseFunc([this]() { this->close(); });
     this->setAttribute(Qt::WA_DeleteOnClose);
     this->show();
 }

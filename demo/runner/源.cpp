@@ -1,13 +1,13 @@
-#include "widget.h"
 #include <QApplication>
 #include "messagebox.h"
+#include "Window.h"
 
 using namespace  lon;
 
 int main(int argc, char** argv) {
     QApplication app(argc, argv);
     Q_INIT_RESOURCE(lon_widget);
-    Widget widget;
+    Window widget;
     widget.enableSizeGrip();
     widget.show();
 

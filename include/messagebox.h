@@ -1,14 +1,13 @@
 ﻿#ifndef LON_MESSAGEBOX
 #define LON_MESSAGEBOX
 
-#include "widget.h"
-
 #include <QMessageBox>
+#include "Window.h"
 
 
 namespace lon {
 // todo 实现模态.
-class MessageBox : public Widget {
+class MessageBox : public Window {
     Q_OBJECT
 private:
     QLabel* text_label_p_;
@@ -16,15 +15,6 @@ private:
 
 public:
     MessageBox(const QString& title, const QString& message, QWidget* parent = nullptr);
-
-
-private slots:
-    void onOkButtonClicked() {
-        window()->close();
-    }
-    void onCancleButtonClicked() {
-        window()->close();
-    }
 };
 
 }  // namespace lon

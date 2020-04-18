@@ -35,20 +35,14 @@
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\widget.cpp">
+    <ClCompile Include="src\messagebox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\messagebox.cpp">
+    <ClCompile Include="src\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="src\WidgetPrivate.hpp">
-      <Filter>Source Files</Filter>
-    </QtMoc>
-    <QtMoc Include="include\widget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="include\titlebar.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -62,6 +56,12 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="include\button.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\WindowPrivate.hpp">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\Window.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
