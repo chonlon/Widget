@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "button.h"
-#include "titlebar.h"
+#include "TitleBar.h"
 #include <QGraphicsDropShadowEffect>
 #include <QSizeGrip>
 #include <QtWidgets>

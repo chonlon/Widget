@@ -1,7 +1,7 @@
 ﻿#ifndef LON_WIDGET
 #define LON_WIDGET
 
-#include "titlebar.h"
+#include "TitleBar.h"
 #include <memory>
 #include <QSizeGrip>
 #include <QGraphicsDropShadowEffect>

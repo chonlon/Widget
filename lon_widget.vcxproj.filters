@@ -41,11 +41,11 @@
     <ClCompile Include="src\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\TitleBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="include\titlebar.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="include\messagebox.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -58,10 +58,16 @@
     <QtMoc Include="include\button.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\WindowPrivate.hpp">
-      <Filter>Source Files</Filter>
-    </QtMoc>
     <QtMoc Include="include\Window.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\WindowPrivate.hpp">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\TitleBarPrivate.hpp">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\TitleBar.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
