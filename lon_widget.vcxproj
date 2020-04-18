@@ -116,6 +116,7 @@
     <QtRcc Include="lon_widget.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\messagebox.cpp" />
     <ClCompile Include="src\widget.cpp" />
   </ItemGroup>
   <ItemGroup>
