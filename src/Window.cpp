@@ -33,32 +33,22 @@ Window::Window(QWidget* parent, TitleBar::Buttons status)
 	data_ = std::make_unique<WindowPrivate>(this);
 	this->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowMinimizeButtonHint);
 	data_->title_bar_ = std::make_unique<TitleBar>(this, status);
-	data_->center_widget_ = std::make_unique<QWidget>();
-	data_->size_girp_enabled = false;
 
 	initWidgets();
 	initLayout();
 	initConnect();
 }
 
-Window::Window(QWidget* center_widget, QWidget* parent)
-	: QWidget(parent)
+Window::Window(QWidget* center_widget, QWidget* parent, TitleBar::Buttons status)
+	: Window(parent, status)
 {
 	if (center_widget)
 	{
 		// RAII don't worry about memory leak.
 		throw std::logic_error{"pointer cannot be null!"};
 	}
-	data_ = std::make_unique<WindowPrivate>(this);
-	this->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowMinimizeButtonHint);
-
-	data_->title_bar_ = std::make_unique<TitleBar>(this);
 
 	data_->center_widget_.reset(center_widget);
-
-	initWidgets();
-	initLayout();
-	initConnect();
 }
 
 Window::~Window() = default;

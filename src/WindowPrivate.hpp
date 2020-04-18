@@ -30,7 +30,7 @@ public:
     bool size_girp_enabled{false};
 
     unique_ptr<QPixmap> pixmap_{nullptr};
-    unique_ptr<QWidget> center_widget_{nullptr};
+    unique_ptr<QWidget> center_widget_{std::make_unique<QWidget>()};
 
     void initLayout() {
         p_layout_ = new QGridLayout(parent_);

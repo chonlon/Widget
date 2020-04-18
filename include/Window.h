@@ -26,7 +26,7 @@ class Window : public QWidget {
     Q_OBJECT
 private:
     friend class WindowPrivate;
-    std::unique_ptr<WindowPrivate> data_;
+    std::unique_ptr<WindowPrivate> data_{nullptr};
 
 private:
     // 禁用setlayout, 只允许操作centerWidget和botttomWidget.
@@ -51,7 +51,7 @@ protected:
 public:
     explicit Window(QWidget* parent = nullptr, TitleBar::Buttons status = TitleBar::ALL);
 
-    explicit Window(QWidget* center_widget, QWidget* parent);
+    explicit Window(QWidget* center_widget, QWidget* parent, TitleBar::Buttons status = TitleBar::ALL);
 
     ~Window() override;
 
