@@ -39,7 +39,7 @@ Window::Window(QWidget* parent, TitleBar::Buttons status)
 	initConnect();
 }
 
-Window::Window(QWidget* center_widget, QWidget* parent, TitleBar::Buttons status)
+Window::Window(std::unique_ptr<QWidget> center_widget, QWidget* parent, TitleBar::Buttons status)
 	: Window(parent, status)
 {
 	if (center_widget)
@@ -48,7 +48,7 @@ Window::Window(QWidget* center_widget, QWidget* parent, TitleBar::Buttons status
 		throw std::logic_error{"pointer cannot be null!"};
 	}
 
-	data_->center_widget_.reset(center_widget);
+	setCenterWidget(std::move(center_widget));
 }
 
 Window::~Window() = default;
@@ -59,9 +59,9 @@ QWidget* Window::centerWidget() const
 }
 
 
-bool Window::setCenterWidget(QWidget* widget)
+bool Window::setCenterWidget(std::unique_ptr<QWidget> widget)
 {
-	return data_->setCenterWidget(widget);
+	return data_->setCenterWidget(std::move(widget));
 }
 
 
@@ -75,9 +75,9 @@ void Window::setTitleIcon(const QIcon& icon)
 	data_->setTitleIcon(icon);
 }
 
-void Window::setTitleBackground(QPixmap* pixmap)
+void Window::setTitleBackground(unique_ptr<QPixmap> pixmap)
 {
-	data_->setTitleBackground(pixmap);
+	data_->setTitleBackground(std::move(pixmap));
 }
 
 void Window::enableSizeGrip()

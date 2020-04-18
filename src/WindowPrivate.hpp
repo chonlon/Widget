@@ -69,13 +69,13 @@ public:
     }
 
 
-    bool setCenterWidget(QWidget* widget) {
+    bool setCenterWidget(std::unique_ptr<QWidget> widget) {
         if (!widget)
             return false;
 
         p_layout_->removeWidget(center_widget_.get());
 
-        center_widget_.reset(widget);
+        center_widget_ = std::move(widget);
 
         if (center_widget_)
             p_layout_->addWidget(center_widget_.get(), 1, 0);
@@ -90,8 +90,8 @@ public:
         title_bar_->setTitleIcon(icon);
     }
 
-    void setTitleBackground(QPixmap* pixmap) const {
-        title_bar_->setBackground(pixmap);
+    void setTitleBackground(unique_ptr<QPixmap> pixmap) const {
+        title_bar_->setBackground(pixmap.release());
     }
 
 

@@ -51,7 +51,7 @@ protected:
 public:
     explicit Window(QWidget* parent = nullptr, TitleBar::Buttons status = TitleBar::ALL);
 
-    explicit Window(QWidget* center_widget, QWidget* parent, TitleBar::Buttons status = TitleBar::ALL);
+    explicit Window(std::unique_ptr<QWidget> center_widget, QWidget* parent, TitleBar::Buttons status = TitleBar::ALL);
 
     ~Window() override;
 
@@ -59,14 +59,14 @@ public:
     QWidget* centerWidget() const;
 
     /// <summary> 设置自定义的centerwidget. </summary>
-    virtual bool setCenterWidget(QWidget* widget);
+    virtual bool setCenterWidget(std::unique_ptr<QWidget> widget);
 
     virtual void setTitle(const QString& title);
 
     virtual void setTitleIcon(const QIcon& icon);
 
     // this class will take pixmap's ownship
-    virtual void setTitleBackground(QPixmap* pixmap);
+    virtual void setTitleBackground(std::unique_ptr<QPixmap> pixmap);
 
     virtual void enableSizeGrip();
 
