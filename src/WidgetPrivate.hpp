@@ -16,32 +16,29 @@ using std::unique_ptr;
 class WidgetPrivate : QObject {
 Q_OBJECT
 private:
-    lon::Widget* parent_;
+    Widget* parent_;
 public:
     WidgetPrivate(Widget* parent)
         : parent_{parent} {
     }
 
-    // todo avoid filed use raw pointer, use smart ptr.
-    TitleBar* title_bar_{nullptr};
-
-    QSizeGrip* size_grip_{nullptr};
-
-    Button* ok_button_{nullptr};
-    Button* cancel_button_{nullptr};
+    unique_ptr<TitleBar> title_bar_{nullptr};
+    unique_ptr<QSizeGrip> size_grip_{nullptr};
+    unique_ptr<Button> ok_button_{nullptr};
+    unique_ptr<Button> cancel_button_{nullptr};
 
     QGridLayout* p_layout_{nullptr};
 
-    bool size_girp_enabled{nullptr};
+    bool size_girp_enabled{false};
 
-    QPixmap* pixmap_{nullptr};
+    unique_ptr<QPixmap> pixmap_{nullptr};
     unique_ptr<QWidget> center_widget_{nullptr};
     unique_ptr<QWidget> bottom_bar_{nullptr};
 
     void initLayout() {
         p_layout_ = new QGridLayout(parent_);
         p_layout_->setSpacing(0);
-        p_layout_->addWidget(title_bar_, 0, 0, 1, 2);
+        p_layout_->addWidget(title_bar_.get(), 0, 0, 1, 2);
         p_layout_->addWidget(center_widget_.get(), 1, 0, 1, 2);
         p_layout_->addWidget(bottom_bar_.get(), 2, 0, 1, 1);
         p_layout_->setContentsMargins(0, 0, 0, 0);
@@ -53,8 +50,8 @@ public:
 
         QHBoxLayout* bottom_layout = new QHBoxLayout(bottom_bar_.get());
 
-        ok_button_ = new Button(bottom_bar_.get());
-        cancel_button_ = new Button(bottom_bar_.get());
+        ok_button_ = std::make_unique<Button>(bottom_bar_.get());
+        cancel_button_ = std::make_unique<Button>(bottom_bar_.get());
 
 
         // 这里由于pushbutton不能使text在icon下面显示.
@@ -78,20 +75,28 @@ public:
         cancel_button_->setFlat(true);
 
         bottom_layout->addStretch();
-        bottom_layout->addWidget(ok_button_);
+        bottom_layout->addWidget(ok_button_.get());
         bottom_layout->addStretch();
-        bottom_layout->addWidget(cancel_button_);
+        bottom_layout->addWidget(cancel_button_.get());
         bottom_layout->addStretch();
 
         bottom_bar_->setLayout(bottom_layout);
     }
 
     void initConnect() const {
-        connect(ok_button_, &QPushButton::clicked, parent_, &Widget::onOkButtonClicked);
-        connect(cancel_button_, &QPushButton::clicked, parent_, &Widget::onCancelButtonClicked);
-        connect(title_bar_, &TitleBar::minimizeButtonClicked, parent_, &Widget::minimizeButtonClicked);
-        connect(title_bar_, &TitleBar::maximizeButtonClicked, parent_, &Widget::maximizeButtonClicked);
-        connect(title_bar_, &TitleBar::closeButtonClicked, parent_, &Widget::closeButtonClicked);
+        connect(ok_button_.get(), &QPushButton::clicked, parent_, &Widget::onOkButtonClicked);
+        connect(cancel_button_.get(), &QPushButton::clicked, parent_, &Widget::onCancelButtonClicked);
+        connect(
+            title_bar_.get(),
+            &TitleBar::minimizeButtonClicked,
+            parent_,
+            &Widget::minimizeButtonClicked);
+        connect(
+            title_bar_.get(),
+            &TitleBar::maximizeButtonClicked,
+            parent_,
+            &Widget::maximizeButtonClicked);
+        connect(title_bar_.get(), &TitleBar::closeButtonClicked, parent_, &Widget::closeButtonClicked);
     }
 
     void initWidgets() {
@@ -145,19 +150,19 @@ public:
 
     void enableSizeGrip() {
         size_girp_enabled = true;
-        size_grip_ = new QSizeGrip(parent_);
+        size_grip_ = std::make_unique<QSizeGrip>(parent_);
         size_grip_->setFixedSize(size_grip_->sizeHint());
-        p_layout_->addWidget(size_grip_, 2, 1, Qt::AlignRight | Qt::AlignBottom);
+        p_layout_->addWidget(size_grip_.get(), 2, 1, Qt::AlignRight | Qt::AlignBottom);
     }
 
-    void setBackground(QPixmap* pixmap) {
+    void setBackground(unique_ptr<QPixmap> pixmap) {
         parent_->setAutoFillBackground(true);
         //判断图片是否为空
         if (!pixmap || pixmap->isNull()) {
             qDebug() << tr("illege arguments, your image is empty") << __FILE__ << "\n";
-            return;
+          
         }
-        pixmap_ = pixmap;
+        pixmap_ = std::move(pixmap);
         parent_->updateBackground();
     }
 

@@ -84,7 +84,7 @@ public:
     virtual bool sizeGripEnabled();
 
     // this class will take pixmap's ownship
-    virtual void setBackground(QPixmap* pixmap);
+    virtual void setBackground(std::unique_ptr<QPixmap> pixmap);
 
     /// <summary>
     /// 设置最小化按钮按下后的执行函数
