@@ -34,8 +34,6 @@ private:
 
     void initLayout() const;
 
-    void initBottomBar() const;
-
     void initConnect() const;
 
     void initWidgets() const;
@@ -53,24 +51,15 @@ protected:
 public:
     explicit Widget(QWidget* parent = nullptr, TitleBar::Buttons status = TitleBar::ALL);
 
-    explicit Widget(QWidget* center_widget, QWidget* bottom_bar, QWidget* parent = nullptr);
+    explicit Widget(QWidget* center_widget, QWidget* parent);
 
     virtual ~Widget();
 
     /// <summary> 返回中间栏的widget指针. </summary>
     QWidget* centerWidget() const;
 
-    /// <summary> 设置自定义的bottombar. </summary>
-    /// 注意: 重新设置bottomBar会导致默认生成的按钮的信号与槽的失效.
-    /// 此类会获取次widget的所有权.
-    virtual bool setBottomBar(QWidget* widget);
-
     /// <summary> 设置自定义的centerwidget. </summary>
-    /// 此类会获得widget的所有权.
     virtual bool setCenterWidget(QWidget* widget);
-
-    /// <summary> 返回底部栏的widget指针. </summary>
-    QWidget* bottomBar() const;
 
     virtual void setTitle(const QString& title);
 
@@ -105,20 +94,10 @@ public:
     virtual void setCloseFunc(std::function<void(void)>&& val);
 
 signals:
-    void okButtonClicked();
-    void cancelButtonClicked();
     void minimizeButtonClicked();
     void maximizeButtonClicked();
     void closeButtonClicked();
     void sizeChanged(QResizeEvent* event);
-private slots:
-    void onOkButtonClicked() {
-        emit okButtonClicked();
-    }
-
-    void onCancelButtonClicked() {
-        emit cancelButtonClicked();
-    }
 };
 
 

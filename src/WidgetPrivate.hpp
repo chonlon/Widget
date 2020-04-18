@@ -24,8 +24,6 @@ public:
 
     unique_ptr<TitleBar> title_bar_{nullptr};
     unique_ptr<QSizeGrip> size_grip_{nullptr};
-    unique_ptr<Button> ok_button_{nullptr};
-    unique_ptr<Button> cancel_button_{nullptr};
 
     QGridLayout* p_layout_{nullptr};
 
@@ -33,59 +31,17 @@ public:
 
     unique_ptr<QPixmap> pixmap_{nullptr};
     unique_ptr<QWidget> center_widget_{nullptr};
-    unique_ptr<QWidget> bottom_bar_{nullptr};
 
     void initLayout() {
         p_layout_ = new QGridLayout(parent_);
         p_layout_->setSpacing(0);
         p_layout_->addWidget(title_bar_.get(), 0, 0, 1, 2);
         p_layout_->addWidget(center_widget_.get(), 1, 0, 1, 2);
-        p_layout_->addWidget(bottom_bar_.get(), 2, 0, 1, 1);
         p_layout_->setContentsMargins(0, 0, 0, 0);
     }
 
-    void initBottomBar() {
-        bottom_bar_->setFixedHeight(50);
-        bottom_bar_->setWindowFlags(Qt::SubWindow);
-
-        QHBoxLayout* bottom_layout = new QHBoxLayout(bottom_bar_.get());
-
-        ok_button_ = std::make_unique<Button>(bottom_bar_.get());
-        cancel_button_ = std::make_unique<Button>(bottom_bar_.get());
-
-
-        // 这里由于pushbutton不能使text在icon下面显示.
-        // 所以只好使用样式表了
-        // 或者这里得给ok_button换一个类型: QToolButton了.
-        ok_button_->setStyleSheet(
-            "QPushButton{border-image: url(:/icon/Resources/button.png);} "
-            "QPus0hButton:hover{border-image: url(:/icon/Resources/button.png);} "
-            "QPushButton:pressed{border-image: url(:/icon/Resources/button.png);} ");
-        ok_button_->setText(u8"确认");
-        ok_button_->setFixedSize(90, 30);
-        ok_button_->setFlat(true);
-
-        cancel_button_->setStyleSheet(
-            "QPushButton{border-image: url(:/icon/Resources/button.png);} "
-            "QPus0hButton:hover{border-image: url(:/icon/Resources/button.png);} "
-            "QPushButton:pressed{border-image: url(:/icon/Resources/button.png);} ");
-
-        cancel_button_->setText("取消");
-        cancel_button_->setFixedSize(90, 30);
-        cancel_button_->setFlat(true);
-
-        bottom_layout->addStretch();
-        bottom_layout->addWidget(ok_button_.get());
-        bottom_layout->addStretch();
-        bottom_layout->addWidget(cancel_button_.get());
-        bottom_layout->addStretch();
-
-        bottom_bar_->setLayout(bottom_layout);
-    }
 
     void initConnect() const {
-        connect(ok_button_.get(), &QPushButton::clicked, parent_, &Widget::onOkButtonClicked);
-        connect(cancel_button_.get(), &QPushButton::clicked, parent_, &Widget::onCancelButtonClicked);
         connect(
             title_bar_.get(),
             &TitleBar::minimizeButtonClicked,
@@ -112,15 +68,6 @@ public:
             painter.drawPixmap(QRect{0, 0, parent_->width(), parent_->height()}, *pixmap_);
     }
 
-    bool setBottomBar(QWidget* widget) {
-        p_layout_->removeWidget(bottom_bar_.get());
-
-        bottom_bar_.reset(widget);
-
-        if (bottom_bar_)
-            p_layout_->addWidget(bottom_bar_.get(), 2, 0, 1, 1);
-        return true;
-    }
 
     bool setCenterWidget(QWidget* widget) {
         if (!widget)

@@ -10,11 +10,6 @@ void Widget::initLayout() const
 	data_->initLayout();
 }
 
-void Widget::initBottomBar() const
-{
-	data_->initBottomBar();
-}
-
 void Widget::initConnect() const
 {
 	data_->initConnect();
@@ -38,19 +33,17 @@ Widget::Widget(QWidget* parent, TitleBar::Buttons status)
 	this->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowMinimizeButtonHint);
 	data_->title_bar_ = std::make_unique<TitleBar>(this, status);
 	data_->center_widget_ = std::make_unique<QWidget>();
-	data_->bottom_bar_ = std::make_unique<QWidget>();
 	data_->size_girp_enabled = false;
 
 	initWidgets();
-	initBottomBar();
 	initLayout();
 	initConnect();
 }
 
-Widget::Widget(QWidget* center_widget, QWidget* bottom_bar, QWidget* parent)
+Widget::Widget(QWidget* center_widget, QWidget* parent)
 	: QWidget(parent)
 {
-	if (center_widget || bottom_bar)
+	if (center_widget)
 	{
 		// RAII don't worry about memory leak.
 		throw std::logic_error{"pointer cannot be null!"};
@@ -61,7 +54,6 @@ Widget::Widget(QWidget* center_widget, QWidget* bottom_bar, QWidget* parent)
 	data_->title_bar_ = std::make_unique<TitleBar>(this);
 
 	data_->center_widget_.reset(center_widget);
-	data_->bottom_bar_.reset(bottom_bar);
 
 	initWidgets();
 	initLayout();
@@ -75,20 +67,12 @@ QWidget* Widget::centerWidget() const
 	return data_->center_widget_.get();
 }
 
-bool Widget::setBottomBar(QWidget* widget)
-{
-	return data_->setBottomBar(widget);
-}
 
 bool Widget::setCenterWidget(QWidget* widget)
 {
 	return data_->setCenterWidget(widget);
 }
 
-QWidget* Widget::bottomBar() const
-{
-	return data_->bottom_bar_.get();
-}
 
 void Widget::setTitle(const QString& title)
 {

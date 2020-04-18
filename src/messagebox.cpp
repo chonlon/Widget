@@ -15,10 +15,8 @@ MessageBox::MessageBox(const QString& title, const QString& message, QWidget* pa
 
     centerWidget()->setLayout(center_layout_p_);
 
-    connect(this, &MessageBox::okButtonClicked, this, &MessageBox::onOkButtonClicked);
-    connect(this, &MessageBox::cancelButtonClicked, this, &MessageBox::onCancleButtonClicked);
     this->setWindowFlag(Qt::Dialog);
-    this->setCloseFunc([this]() { this->close(); });
+    //this->setCloseFunc([this]() { this->close(); });
     this->setAttribute(Qt::WA_DeleteOnClose);
     this->show();
 }
