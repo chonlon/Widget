@@ -33,6 +33,8 @@ void lon::TitleBar::paintEvent(QPaintEvent* event) {
 bool lon::TitleBar::eventFilter(QObject* obj, QEvent* event) {
     if (!data_->innerEventFilter(obj, event)) {
         return QWidget::eventFilter(obj, event);
+    } else {
+        return true;
     }
 }
 
