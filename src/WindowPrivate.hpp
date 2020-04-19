@@ -89,7 +89,7 @@ public:
     }
 
     void setTitleBackground(unique_ptr<QPixmap> pixmap) const {
-        title_bar_->setBackground(pixmap.release());
+        title_bar_->setBackground(std::move(pixmap));
     }
 
 

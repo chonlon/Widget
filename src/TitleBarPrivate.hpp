@@ -1,6 +1,10 @@
 ﻿#pragma once
 
 #include "TitleBar.h"
+#include <cassert>
+#include <QLabel>
+#include <QApplication>
+#include <QHBoxLayout>
 
 using lon::Button;
 using std::unique_ptr;
@@ -120,8 +124,8 @@ public:
     }
 
     void initLayout(uint32_t button) {
-        const char minn = 4;
-        const char maxn = 2;
+        constexpr char minn = 4;
+        constexpr char maxn = 2;
         title_bar_layout_ = make_unique<QHBoxLayout>(parent_);
         title_bar_layout_->addWidget(icon_label_.get());
         title_bar_layout_->addSpacing(5);
@@ -140,8 +144,8 @@ public:
     }
 
     void initConnection(uint32_t button) {
-        const char minn = 4;
-        const char maxn = 2;
+        constexpr char minn = 4;
+        constexpr char maxn = 2;
 
         if ((button & minn) == minn)
             connect(pminimize_button_.get(), SIGNAL(clicked(bool)), parent_, SLOT(onButtonClicked()));
@@ -156,7 +160,6 @@ public:
 
         is_pressed_ = true;
         move_start_position_ = event->globalPos();
-
     }
 
     void mouseMoveEvent(QMouseEvent* event) {
@@ -174,7 +177,14 @@ public:
         is_pressed_ = false;
     }
 
-    bool eventFilter(QObject* obj, QEvent* event) {
+    void paintEvent(QPaintEvent* event) const {
+        QPainter painter{parent_};
+
+        if(pixmap_)
+            painter.drawPixmap(QRect{0, 0, parent_->width(), parent_->height()}, *pixmap_);
+    }
+
+    bool innerEventFilter(QObject* obj, QEvent* event) {
         switch (event->type()) {
             case QEvent::WindowTitleChange: {
                 QWidget* pWidget = qobject_cast<QWidget*>(obj);
@@ -203,7 +213,6 @@ public:
     }
 
     void initTitleBar(TitleBar::Buttons button) {
-        is_pressed_ = false;
         pixmap_ = nullptr;
 
         parent_->resize(parent_->width(), TITLE_BAR_HEIGHT);
@@ -249,22 +258,8 @@ public:
             return;
         }
         //设置窗口的背景
-        QPalette palette = parent_->palette();
-        palette.setBrush(
-            parent_->backgroundRole(),
-            QBrush(pixmap->scaled(parent_->size(),
-                                  Qt::IgnoreAspectRatio,
-                                  Qt::SmoothTransformation)));
-        parent_->setPalette(palette);
         pixmap_ = std::move(pixmap);
-    }
-
-    void resizeEvent(QResizeEvent* event) {
-        if (pixmap_ == nullptr)
-            return;
-        if (pixmap_->isNull())
-            return;
-        this->setBackground(std::move(pixmap_));
+        parent_->updateBackground();
     }
 
     void setTitle(const QString& title) {
@@ -303,8 +298,8 @@ public:
 
     unique_ptr<QHBoxLayout> title_bar_layout_{nullptr};
 
-    bool is_pressed_;
-    QPoint move_start_position_;
+    bool is_pressed_{false};
+    QPoint move_start_position_{0, 0};
 
     // actions titlebar will exec when specific button clicked.
     std::function<void(void)> min_func_;

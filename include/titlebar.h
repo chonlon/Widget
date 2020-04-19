@@ -2,14 +2,7 @@
 #define LON_TITLEBAR
 
 #include "button.h"
-#include <QApplication>
-#include <QEvent>
-#include <QHBoxLayout>
-#include <QIcon>
-#include <QLabel>
-#include <QMouseEvent>
 #include <QWidget>
-#include <cassert>
 #include <functional>
 #include <memory>
 
@@ -21,25 +14,6 @@ class TitleBarPrivate;
 
 class TitleBar : public QWidget {
 Q_OBJECT
-protected:
-    /// 双击标题栏进行界面的最大化/还原
-    void mouseDoubleClickEvent(QMouseEvent* event) override;
-
-    // 按住titlebar会进行窗口的拖放
-    // 事实上是使用下面三个函数(press, move, release)计算按下时移动距离
-    // 在press的时候进行计算
-    // 并在release的时候结束计算
-    void mousePressEvent(QMouseEvent* event) override;
-
-    void mouseMoveEvent(QMouseEvent* event) override;
-
-    void mouseReleaseEvent(QMouseEvent* event) override;
-
-    void resizeEvent(QResizeEvent* event) override;
-
-    /// 设置默认界面标题与图标
-    bool eventFilter(QObject* obj, QEvent* event) override;
-
 public:
     // 标题栏的按钮状态
     // 二进制最后一位为1表示close开
@@ -58,7 +32,7 @@ public:
     virtual void setTitleIcon(const QIcon& icon);
 
     /// <summary> 以传入的icon设置TitleBar的背景</summary>
-    virtual void setBackground(QPixmap* pixmap);
+    virtual void setBackground(std::unique_ptr<QPixmap> pixmap);
 
 
     /// <summary>
@@ -80,6 +54,27 @@ public:
     void setCloseFunc(std::function<void(void)> val);
 
     virtual ~TitleBar();
+protected:
+    /// 双击标题栏进行界面的最大化/还原
+    void mouseDoubleClickEvent(QMouseEvent* event) override;
+
+    // 按住titlebar会进行窗口的拖放
+    // 事实上是使用下面三个函数(press, move, release)计算按下时移动距离
+    // 在press的时候进行计算
+    // 并在release的时候结束计算
+    void mousePressEvent(QMouseEvent* event) override;
+
+    void mouseMoveEvent(QMouseEvent* event) override;
+
+    void mouseReleaseEvent(QMouseEvent* event) override;
+
+    void resizeEvent(QResizeEvent* event) override;
+
+    void paintEvent(QPaintEvent* event) override;
+
+    /// 设置默认界面标题与图标
+    bool eventFilter(QObject* obj, QEvent* event) override;
+
 signals:
     void minimizeButtonClicked();
     void maximizeButtonClicked();
@@ -87,6 +82,10 @@ signals:
 private slots:
     void onButtonClicked();
 private:
+    void updateBackground() {
+        update();
+    }
+
     friend class TitleBarPrivate;
     std::unique_ptr<TitleBarPrivate> data_;
 };

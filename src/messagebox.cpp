@@ -1,4 +1,5 @@
 #include "messagebox.h"
+#include <QLabel>
 
 using namespace lon;
 MessageBox::MessageBox(const QString& title, const QString& message, QWidget* parent)

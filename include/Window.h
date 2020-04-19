@@ -5,6 +5,7 @@
 #include <memory>
 #include <QSizeGrip>
 #include <QGraphicsDropShadowEffect>
+#include <QVBoxLayout>
 class WindowPrivate;
 class QLayout;
 

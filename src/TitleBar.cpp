@@ -22,12 +22,16 @@ void lon::TitleBar::mouseReleaseEvent(QMouseEvent* event) {
 }
 
 void lon::TitleBar::resizeEvent(QResizeEvent* event) {
-    data_->resizeEvent(event);
     return QWidget::resizeEvent(event);
 }
 
+void lon::TitleBar::paintEvent(QPaintEvent* event) {
+    data_->paintEvent(event);
+    return QWidget::paintEvent(event);
+}
+
 bool lon::TitleBar::eventFilter(QObject* obj, QEvent* event) {
-    if (!data_->eventFilter(obj, event)) {
+    if (!data_->innerEventFilter(obj, event)) {
         return QWidget::eventFilter(obj, event);
     }
 }
@@ -46,8 +50,8 @@ void lon::TitleBar::setTitleIcon(const QIcon& icon) {
     data_->setTitleIcon(icon);
 }
 
-void lon::TitleBar::setBackground(QPixmap* pixmap) {
-
+void lon::TitleBar::setBackground(std::unique_ptr<QPixmap> pixmap) {
+    data_->setBackground(std::move(pixmap));
 }
 
 void lon::TitleBar::setMinFunc(std::function<void()> val) {
