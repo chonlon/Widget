@@ -5,7 +5,7 @@
 #include <QLabel>
 #include <QApplication>
 #include <QHBoxLayout>
-
+#include <gsl/gsl>
 
 using lon::Button;
 using std::unique_ptr;
@@ -22,8 +22,7 @@ namespace lon {
 struct TitleBarPrivate : QObject {
 Q_OBJECT
 public:
-    // todo: 使用 not_null 描述
-    TitleBarPrivate(TitleBar* parent)
+    TitleBarPrivate(gsl::not_null<TitleBar*>(parent))
         : parent_(parent) {
         assert(parent && "the titlebar pointer cannot be empty");
     }
