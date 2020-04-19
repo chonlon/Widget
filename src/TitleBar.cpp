@@ -56,15 +56,15 @@ void lon::TitleBar::setBackground(std::unique_ptr<QPixmap> pixmap) {
     data_->setBackground(std::move(pixmap));
 }
 
-void lon::TitleBar::setMinFunc(std::function<void()> val) {
+void lon::TitleBar::setMinFunc(std::function<void()>&& val) {
     data_->min_func_ = val;
 }
 
-void lon::TitleBar::setMaxFunc(std::function<void()> val) {
+void lon::TitleBar::setMaxFunc(std::function<void()>&& val) {
     data_->max_func_ = val;
 }
 
-void lon::TitleBar::setCloseFunc(std::function<void()> val) {
+void lon::TitleBar::setCloseFunc(std::function<void()>&& val) {
     data_->close_func_ = val;
 }
 

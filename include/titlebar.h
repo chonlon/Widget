@@ -34,24 +34,25 @@ public:
     /// <summary> 以传入的icon设置TitleBar的背景</summary>
     virtual void setBackground(std::unique_ptr<QPixmap> pixmap);
 
+    //todo 设置接口使用万能引用.
 
     /// <summary>
     /// 设置最小化按钮按下后的执行函数
     /// </summary>
     /// <param name="val"> 执行函数, std::function<void> </param>
-    void setMinFunc(std::function<void(void)> val);
+    void setMinFunc(std::function<void(void)>&& val);
 
     /// <summary>
     /// 设置最大化按钮按下后的执行函数
     /// </summary>
     /// <param name="val"> 执行函数, std::function<void> </param>
-    void setMaxFunc(std::function<void(void)> val);
+    void setMaxFunc(std::function<void(void)>&& val);
 
     /// <summary>
     /// 关闭按钮按下后的执行函数
     /// </summary>
     /// <param name="val"> 执行函数, std::function<void> </param>
-    void setCloseFunc(std::function<void(void)> val);
+    void setCloseFunc(std::function<void(void)>&& val);
 
     virtual ~TitleBar();
 protected:

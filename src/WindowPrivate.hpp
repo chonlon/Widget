@@ -112,14 +112,14 @@ public:
     }
 
     void setMinFunc(std::function<void()>&& val) const {
-        title_bar_->setMinFunc(val);
+        title_bar_->setMinFunc(std::move(val));
     }
 
     void setMaxFunc(std::function<void()>&& val) const {
-        title_bar_->setMaxFunc(val);
+        title_bar_->setMaxFunc(std::move(val));
     }
 
     void setCloseFunc(std::function<void()>&& val) const {
-        title_bar_->setCloseFunc(val);
+        title_bar_->setCloseFunc(std::move(val));
     }
 };
