@@ -4,6 +4,9 @@
 
 using lon::Button;
 using std::unique_ptr;
+using std::shared_ptr;
+using std::make_unique;
+using std::make_shared;
 
 constexpr int32_t BUTTON_HEIGHT = 45;
 constexpr int32_t BUTTON_WIDTH = 45;
@@ -50,13 +53,13 @@ public:
         if ((button & maxn) != maxn)
             return;
 
-        max_max_normal_.reset(new QIcon(":/icon/Resources/max_max_normal.png"));
-        max_max_focus_.reset(new QIcon(":/icon/Resources/max_max_focus.png"));
-        max_max_pressed_.reset(new QIcon(":/icon/Resources/max_max_pressed.png"));
+        max_max_normal_ = make_shared<QIcon>(":/icon/Resources/max_max_normal.png");
+        max_max_focus_ = make_shared<QIcon>(":/icon/Resources/max_max_focus.png");
+        max_max_pressed_ = make_shared<QIcon>(":/icon/Resources/max_max_pressed.png");
 
-        max_normal_normal_.reset(new QIcon(":/icon/Resources/max_normal_normal.png"));
-        max_normal_focus_.reset(new QIcon(":/icon/Resources/max_normal_focus.png"));
-        max_normal_pressed_.reset(new QIcon(":/icon/Resources/max_normal_pressed.png"));
+        max_normal_normal_ = make_shared<QIcon>(":/icon/Resources/max_normal_normal.png");
+        max_normal_focus_ = make_shared<QIcon>(":/icon/Resources/max_normal_focus.png");
+        max_normal_pressed_ = make_shared<QIcon>(":/icon/Resources/max_normal_pressed.png");
     }
 
     void initWidgets(uint32_t button) {
@@ -65,7 +68,7 @@ public:
 
         //初始化最小化按钮
         if ((button & minn) == minn) {
-            pminimize_button_ = new Button(new QIcon(":/icon/Resources/min_normal.png"),
+            pminimize_button_ = make_unique<Button>(new QIcon(":/icon/Resources/min_normal.png"),
                                            // normal
                                            new QIcon(":/icon/Resources/min_focus.png"),
                                            // focus
@@ -81,7 +84,7 @@ public:
 
         //初始化最大化按钮
         if ((button & maxn) == maxn) {
-            pmaximize_button_ = new Button(parent_);
+            pmaximize_button_ = make_unique<Button>(parent_);
 
             pmaximize_button_->setNormal(max_normal_normal_);
             pmaximize_button_->setFocus(max_normal_focus_);
@@ -93,7 +96,7 @@ public:
             pmaximize_button_->setToolTip("最大化");
         }
         // 初始化关闭按钮
-        pclose_button_ = new Button(new QIcon(":/icon/Resources/close_normal.png"),
+        pclose_button_ = make_unique<Button>(new QIcon(":/icon/Resources/close_normal.png"),
                                     // normal
                                     new QIcon(":/icon/Resources/close_focus.png"),
                                     // focus
@@ -107,11 +110,11 @@ public:
         pclose_button_->setToolTip("关闭窗口");
 
         // 初始化两个label
-        icon_label_ = new QLabel(parent_);
+        icon_label_ = make_unique<QLabel>(parent_);
         icon_label_->setFixedSize(30, 30);
         icon_label_->setScaledContents(true);
 
-        title_label_ = new QLabel(parent_);
+        title_label_ = make_unique<QLabel>(parent_);
         title_label_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         title_label_->setObjectName("titleLable");
     }
@@ -119,21 +122,21 @@ public:
     void initLayout(uint32_t button) {
         const char minn = 4;
         const char maxn = 2;
-        title_bar_layout_ = new QHBoxLayout(parent_);
-        title_bar_layout_->addWidget(icon_label_);
+        title_bar_layout_ = make_unique<QHBoxLayout>(parent_);
+        title_bar_layout_->addWidget(icon_label_.get());
         title_bar_layout_->addSpacing(5);
-        title_bar_layout_->addWidget(title_label_);
+        title_bar_layout_->addWidget(title_label_.get());
         title_bar_layout_->setSpacing(0);
 
         if ((button & minn) == minn)
-            title_bar_layout_->addWidget(pminimize_button_);
+            title_bar_layout_->addWidget(pminimize_button_.get());
         if ((button & maxn) == maxn)
-            title_bar_layout_->addWidget(pmaximize_button_);
-        title_bar_layout_->addWidget(pclose_button_);
+            title_bar_layout_->addWidget(pmaximize_button_.get());
+        title_bar_layout_->addWidget(pclose_button_.get());
 
         title_bar_layout_->setContentsMargins(5, 0, 0, 0);
 
-        parent_->setLayout(title_bar_layout_);
+        parent_->setLayout(title_bar_layout_.get());
     }
 
     void initConnection(uint32_t button) {
@@ -141,10 +144,10 @@ public:
         const char maxn = 2;
 
         if ((button & minn) == minn)
-            connect(pminimize_button_, SIGNAL(clicked(bool)), parent_, SLOT(onButtonClicked()));
+            connect(pminimize_button_.get(), SIGNAL(clicked(bool)), parent_, SLOT(onButtonClicked()));
         if ((button & maxn) == maxn)
-            connect(pmaximize_button_, SIGNAL(clicked(bool)), parent_, SLOT(onButtonClicked()));
-        connect(pclose_button_, SIGNAL(clicked(bool)), parent_, SLOT(onButtonClicked()));
+            connect(pmaximize_button_.get(), SIGNAL(clicked(bool)), parent_, SLOT(onButtonClicked()));
+        connect(pclose_button_.get(), SIGNAL(clicked(bool)), parent_, SLOT(onButtonClicked()));
     }
 
     void mousePressEvent(QMouseEvent* event) {
@@ -169,7 +172,6 @@ public:
 
     void mouseReleaseEvent(QMouseEvent* event) {
         is_pressed_ = false;
-
     }
 
     bool eventFilter(QObject* obj, QEvent* event) {
@@ -239,7 +241,7 @@ public:
         icon_label_->setPixmap(icon.pixmap(icon_label_->size()));
     }
 
-    void setBackground(QPixmap* pixmap) {
+    void setBackground(unique_ptr<QPixmap> pixmap) {
         parent_->setAutoFillBackground(true);
         //判断图片是否为空
         if (pixmap->isNull()) {
@@ -254,7 +256,7 @@ public:
                                   Qt::IgnoreAspectRatio,
                                   Qt::SmoothTransformation)));
         parent_->setPalette(palette);
-        pixmap_ = pixmap;
+        pixmap_ = std::move(pixmap);
     }
 
     void resizeEvent(QResizeEvent* event) {
@@ -262,7 +264,7 @@ public:
             return;
         if (pixmap_->isNull())
             return;
-        this->setBackground(pixmap_);
+        this->setBackground(std::move(pixmap_));
     }
 
     void setTitle(const QString& title) {
@@ -270,36 +272,36 @@ public:
     }
 
     void onButtonClicked(QPushButton* pButton) {
-        if (pButton == pminimize_button_) {
+        if (pButton == pminimize_button_.get()) {
             emit parent_->minimizeButtonClicked();
             min_func_();
-        } else if (pButton == pmaximize_button_) {
+        } else if (pButton == pmaximize_button_.get()) {
             emit parent_->maximizeButtonClicked();
             max_func_();
-        } else if (pButton == pclose_button_) {
+        } else if (pButton == pclose_button_.get()) {
             emit parent_->closeButtonClicked();
             close_func_();
         }
     }
 
-    QLabel* icon_label_;
-    QLabel* title_label_;
+    unique_ptr<QLabel> icon_label_{nullptr};
+    unique_ptr<QLabel> title_label_{nullptr};
 
-    Button* pminimize_button_;
-    Button* pmaximize_button_;
-    Button* pclose_button_;
+    unique_ptr<Button> pminimize_button_{nullptr};
+    unique_ptr<Button> pmaximize_button_{nullptr};
+    unique_ptr<Button> pclose_button_{nullptr};
 
-    std::shared_ptr<QIcon> max_max_normal_;
-    std::shared_ptr<QIcon> max_max_focus_;
-    std::shared_ptr<QIcon> max_max_pressed_;
+    shared_ptr<QIcon> max_max_normal_{nullptr};
+    shared_ptr<QIcon> max_max_focus_{nullptr};
+    shared_ptr<QIcon> max_max_pressed_{nullptr};
 
-    std::shared_ptr<QIcon> max_normal_normal_;
-    std::shared_ptr<QIcon> max_normal_focus_;
-    std::shared_ptr<QIcon> max_normal_pressed_;
+    shared_ptr<QIcon> max_normal_normal_{nullptr};
+    shared_ptr<QIcon> max_normal_focus_{nullptr};
+    shared_ptr<QIcon> max_normal_pressed_{nullptr};
 
-    QPixmap* pixmap_;
+    unique_ptr<QPixmap> pixmap_{nullptr};
 
-    QHBoxLayout* title_bar_layout_;
+    unique_ptr<QHBoxLayout> title_bar_layout_{nullptr};
 
     bool is_pressed_;
     QPoint move_start_position_;

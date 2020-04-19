@@ -20,7 +20,7 @@ namespace lon {
 class TitleBarPrivate;
 
 class TitleBar : public QWidget {
-    Q_OBJECT
+Q_OBJECT
 protected:
     /// 双击标题栏进行界面的最大化/还原
     void mouseDoubleClickEvent(QMouseEvent* event) override;
@@ -92,8 +92,6 @@ private:
 };
 
 
-
-
-}  // namespace lon
+} // namespace lon
 
 #endif
