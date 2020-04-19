@@ -24,7 +24,6 @@ Q_OBJECT
 public:
     TitleBarPrivate(gsl::not_null<TitleBar*>(parent))
         : parent_(parent) {
-        assert(parent && "the titlebar pointer cannot be empty");
     }
 
     // 点击最大化按钮以后需要更新一些控件
@@ -70,6 +69,15 @@ public:
         const char minn = 4;
         const char maxn = 2;
 
+        auto setupButton = [](std::unique_ptr<Button>& button, const QString& object_name, const QString& tool_tip)
+        {
+            button->setFlat(true);
+            button->setStyleSheet("border:none");
+            button->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+            button->setObjectName("minimizeButton");
+            button->setToolTip("最小化");
+        };
+
         //初始化最小化按钮
         if ((button & minn) == minn) {
             pminimize_button_ = make_unique<Button>(new QIcon(":/icon/Resources/min_normal.png"),
@@ -79,11 +87,7 @@ public:
                                            new QIcon(":/icon/Resources/min_pressed.png"),
                                            // pressed
                                            parent_);
-            pminimize_button_->setFlat(true);
-            pminimize_button_->setStyleSheet("border:none");
-            pminimize_button_->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-            pminimize_button_->setObjectName("minimizeButton");
-            pminimize_button_->setToolTip("最小化");
+            setupButton(pminimize_button_, "minimizeButton", "最小化");
         }
 
         //初始化最大化按钮
@@ -93,11 +97,7 @@ public:
             pmaximize_button_->setNormal(max_normal_normal_);
             pmaximize_button_->setFocus(max_normal_focus_);
             pmaximize_button_->setPressed(max_normal_pressed_);
-            pmaximize_button_->setFlat(true);
-            pmaximize_button_->setStyleSheet("border:none");
-            pmaximize_button_->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-            pmaximize_button_->setObjectName("maximizeButton");
-            pmaximize_button_->setToolTip("最大化");
+            setupButton(pmaximize_button_,"maximizeButton", "最大化");
         }
         // 初始化关闭按钮
         pclose_button_ = make_unique<Button>(new QIcon(":/icon/Resources/close_normal.png"),
@@ -107,11 +107,7 @@ public:
                                     new QIcon(":/icon/Resources/close_pressed.png"),
                                     // pressedparent_
                                     parent_);
-        pclose_button_->setFlat(true);
-        pclose_button_->setStyleSheet("border:none");
-        pclose_button_->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        pclose_button_->setObjectName("closeButton");
-        pclose_button_->setToolTip("关闭窗口");
+        setupButton(pclose_button_, "closeButton", "关闭窗口");
 
         // 初始化两个label
         icon_label_ = make_unique<QLabel>(parent_);
