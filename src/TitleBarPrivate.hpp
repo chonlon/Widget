@@ -22,7 +22,7 @@ namespace lon {
 struct TitleBarPrivate : QObject {
 Q_OBJECT
 public:
-    TitleBarPrivate(gsl::not_null<TitleBar*>(parent))
+    TitleBarPrivate(gsl::not_null<TitleBar*> (parent))
         : parent_(parent) {
     }
 
@@ -69,7 +69,9 @@ public:
         const char minn = 4;
         const char maxn = 2;
 
-        auto setupButton = [](std::unique_ptr<Button>& button, const QString& object_name, const QString& tool_tip)
+        auto setupButton = [=](std::unique_ptr<Button>& button,
+                               const QString& object_name,
+                               const QString& tool_tip)
         {
             button->setFlat(true);
             button->setStyleSheet("border:none");
@@ -80,13 +82,14 @@ public:
 
         //初始化最小化按钮
         if ((button & minn) == minn) {
-            pminimize_button_ = make_unique<Button>(new QIcon(":/icon/Resources/min_normal.png"),
-                                           // normal
-                                           new QIcon(":/icon/Resources/min_focus.png"),
-                                           // focus
-                                           new QIcon(":/icon/Resources/min_pressed.png"),
-                                           // pressed
-                                           parent_);
+            pminimize_button_ = make_unique<Button>(
+                make_shared<QIcon>(":/icon/Resources/min_normal.png"),
+                // normal
+                make_shared<QIcon>(":/icon/Resources/min_focus.png"),
+                // focus
+                make_shared<QIcon>(":/icon/Resources/min_pressed.png"),
+                // pressed
+                parent_);
             setupButton(pminimize_button_, "minimizeButton", "最小化");
         }
 
@@ -97,16 +100,14 @@ public:
             pmaximize_button_->setNormal(max_normal_normal_);
             pmaximize_button_->setFocus(max_normal_focus_);
             pmaximize_button_->setPressed(max_normal_pressed_);
-            setupButton(pmaximize_button_,"maximizeButton", "最大化");
+            setupButton(pmaximize_button_, "maximizeButton", "最大化");
         }
         // 初始化关闭按钮
-        pclose_button_ = make_unique<Button>(new QIcon(":/icon/Resources/close_normal.png"),
-                                    // normal
-                                    new QIcon(":/icon/Resources/close_focus.png"),
-                                    // focus
-                                    new QIcon(":/icon/Resources/close_pressed.png"),
-                                    // pressedparent_
-                                    parent_);
+        pclose_button_ = make_unique<Button>(
+            make_shared<QIcon>(":/icon/Resources/close_normal.png"),
+            make_shared<QIcon>(":/icon/Resources/close_focus.png"),
+            make_shared<QIcon>(":/icon/Resources/close_pressed.png"),
+            parent_);
         setupButton(pclose_button_, "closeButton", "关闭窗口");
 
         // 初始化两个label
@@ -144,9 +145,15 @@ public:
         constexpr char maxn = 2;
 
         if ((button & minn) == minn)
-            connect(pminimize_button_.get(), SIGNAL(clicked(bool)), parent_, SLOT(onButtonClicked()));
+            connect(pminimize_button_.get(),
+                    SIGNAL(clicked(bool)),
+                    parent_,
+                    SLOT(onButtonClicked()));
         if ((button & maxn) == maxn)
-            connect(pmaximize_button_.get(), SIGNAL(clicked(bool)), parent_, SLOT(onButtonClicked()));
+            connect(pmaximize_button_.get(),
+                    SIGNAL(clicked(bool)),
+                    parent_,
+                    SLOT(onButtonClicked()));
         connect(pclose_button_.get(), SIGNAL(clicked(bool)), parent_, SLOT(onButtonClicked()));
     }
 
@@ -176,7 +183,7 @@ public:
     void paintEvent(QPaintEvent* event) const {
         QPainter painter{parent_};
 
-        if(pixmap_)
+        if (pixmap_)
             painter.drawPixmap(QRect{0, 0, parent_->width(), parent_->height()}, *pixmap_);
     }
 

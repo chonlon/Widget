@@ -4,29 +4,6 @@
 #include <QPushButton>
 #include <QtGui>
 #include <memory>
-#ifdef DEBUG
-#include <vector>
-/// <summary>
-/// --调试函数--
-/// 返回对应目录下所有文件文件名
-/// </summary>
-/// <param name: "dir"> 需要查看的目录 </param>
-/// <returns> 目录下的所有文件的文件名数组 </returns>
-static std::vector<QString> GetFileList(QString dir) {
-    std::vector<QString> filePath;
-    QDir dirPath(dir);
-    QList<QFileInfo> file(dirPath.entryInfoList());
-    QString name = "";
-
-    for (auto it = file.begin(); it != file.end(); it++) {
-        name = dir + "/" + it->fileName();
-        if ((*it).isFile()) {
-            filePath.push_back(name);
-        }
-    }
-    return filePath;
-}
-#endif  // DEBUG
 
 namespace lon {
 /// <summary>
@@ -36,7 +13,7 @@ namespace lon {
 /// 注意: 默认的不是flat的,(因为如果图标设置失败, 而按钮已经时flat的会很尴尬)
 /// 所以添加icon后还是会有边框和背景, 如果不想要, 使用button->setFlat(true)即可.
 class Button : public QPushButton {
-    Q_OBJECT
+Q_OBJECT
 private:
     std::shared_ptr<QIcon> normal_icon_;
     std::shared_ptr<QIcon> focus_icon_;
@@ -118,52 +95,29 @@ public:
     /// 以及是否存在icon文件
     /// </summary>
     /// <param name: parent> 用于设置当前Button的parent </param>
-    Button(QWidget* parent = nullptr) : QPushButton(parent), scaling_factor_(0.8) {
-        normal_icon_.reset(new QIcon("normal.png"));
-        focus_icon_.reset(new QIcon("focus.png"));
-        pressed_icon_.reset(new QIcon("pressed.png"));
+    Button(QWidget* parent = nullptr)
+        : QPushButton(parent),
+          scaling_factor_(0.8),
+          normal_icon_{std::make_shared<QIcon>("normal.png")},
+          focus_icon_{std::make_shared<QIcon>("focus.png")},
+          pressed_icon_{std::make_shared<QIcon>("pressed.png")} {
         this->setIcon(*normal_icon_);
     }
 
-    /// <summary>
-    /// 以自定义的图标设置按钮,
-    /// 使用这个方式会接管三个icon的指针指向变量的所有权.
-    /// </summary>
-    /// <param name = "pnormal_icon"> </param>
-    Button(QIcon* pnormal_icon, QIcon* pfocus_icon, QIcon* ppressed_icon, QWidget* parent = nullptr)
-        : QPushButton(parent), scaling_factor_(0.8) {
-        if (pnormal_icon == nullptr) {
-            normal_icon_.reset(new QIcon("./normal.png"));
-        } else {
-            normal_icon_.reset(pnormal_icon);
-        }
-
-        if (pfocus_icon == nullptr) {
-            focus_icon_.reset(new QIcon("./focus.png"));
-        } else {
-            focus_icon_.reset(pfocus_icon);
-        }
-
-        if (ppressed_icon == nullptr) {
-            pressed_icon_.reset(new QIcon("./pressed.png"));
-        } else {
-            pressed_icon_.reset(ppressed_icon);
-        }
-        this->setIcon(*normal_icon_);
-    }
 
     /// <summary>
     /// 以自定义的图标设置按钮,
     /// 使用智能指针管理icon内存.
     /// </summary>
-    Button(const std::shared_ptr<QIcon>& normal_icon,
-           const std::shared_ptr<QIcon>& focus_icon,
-           const std::shared_ptr<QIcon>& pressed_icon,
+    Button(std::shared_ptr<QIcon> normal_icon,
+           std::shared_ptr<QIcon> focus_icon,
+           std::shared_ptr<QIcon> pressed_icon,
            QWidget* parent = nullptr)
-        : QPushButton(parent), scaling_factor_(0.8) {
-        normal_icon_ = normal_icon;
-        focus_icon_ = focus_icon;
-        pressed_icon_ = pressed_icon;
+        : QPushButton(parent),
+          scaling_factor_(0.8) {
+        normal_icon_ = std::move(normal_icon);
+        focus_icon_ = std::move(focus_icon);
+        pressed_icon_ = std::move(pressed_icon);
         this->setIcon(*normal_icon_);
     }
 
@@ -176,44 +130,21 @@ public:
         this->setIconSize(QSize(this->width() * scaling_factor_, this->height() * scaling_factor_));
     }
 
-    /// <summary> 设置normal图标, 接管指针所指内存管理权 </summary>
-    virtual void setNormal(QIcon* normal) {
-        if (normal == nullptr)
-            return;
-        normal_icon_.reset(normal);
-
-        this->setIcon(*normal_icon_);
-    }
-
     /// <summary> 设置normal图标, 以智能指针管理内存 </summary>
-    virtual void setNormal(const std::shared_ptr<QIcon>& normal) {
-        normal_icon_ = normal;
+    virtual void setNormal(std::shared_ptr<QIcon> normal) {
+        normal_icon_ = std::move(normal);
 
         this->setIcon(*normal_icon_);
-    }
-
-    /// <summary> 设置focus图标, 接管指针所指内存管理权 </summary>
-    virtual void setFocus(QIcon* focus) {
-        if (focus == nullptr)
-            return;
-        focus_icon_.reset(focus);
     }
 
     /// <summary> 设置focus图标, 以智能指针管理内存 </summary>
-    virtual void setFocus(const std::shared_ptr<QIcon>& focus) {
-        focus_icon_ = focus;
-    }
-
-    /// <summary> 设置pressed图标, 接管指针所指内存管理权 </summary>
-    virtual void setPressed(QIcon* pressed) {
-        if (pressed == nullptr)
-            return;
-        pressed_icon_.reset(pressed);
+    virtual void setFocus(std::shared_ptr<QIcon> focus) {
+        focus_icon_ = std::move(focus);
     }
 
     /// <summary> 设置pressed图标, 以智能指针管理内存 </summary>
-    virtual void setPressed(const std::shared_ptr<QIcon>& pressed) {
-        pressed_icon_ = pressed;
+    virtual void setPressed(std::shared_ptr<QIcon> pressed) {
+        pressed_icon_ = std::move(pressed);
     }
 
     virtual ~Button() {
@@ -222,5 +153,5 @@ public:
         pressed_icon_ = nullptr;
     }
 };
-}  // namespace lon
+} // namespace lon
 #endif
