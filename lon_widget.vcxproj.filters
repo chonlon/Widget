@@ -44,6 +44,9 @@
     <ClCompile Include="src\TitleBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Dialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\messagebox.h">
@@ -73,6 +76,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\autodeletewidgetpointer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Dialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DialogPrivate.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

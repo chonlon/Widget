@@ -116,6 +116,7 @@
     <QtRcc Include="lon_widget.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Dialog.cpp" />
     <ClCompile Include="src\messagebox.cpp" />
     <ClCompile Include="src\TitleBar.cpp" />
     <ClCompile Include="src\Window.cpp" />
@@ -128,6 +129,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\autodeletewidgetpointer.hpp" />
+    <ClInclude Include="include\Dialog.h" />
+    <ClInclude Include="src\DialogPrivate.hpp" />
     <QtMoc Include="include\TitleBar.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.\src;.\include;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
