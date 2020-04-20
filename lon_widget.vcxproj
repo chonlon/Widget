@@ -118,6 +118,7 @@
   <ItemGroup>
     <ClCompile Include="src\Dialog.cpp" />
     <ClCompile Include="src\messagebox.cpp" />
+    <ClCompile Include="src\ShadowWindow.cpp" />
     <ClCompile Include="src\TitleBar.cpp" />
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
@@ -130,6 +131,10 @@
   <ItemGroup>
     <ClInclude Include="include\autodeletewidgetpointer.hpp" />
     <ClInclude Include="include\Dialog.h" />
+    <QtMoc Include="include\ShadowWindow.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.\src;.\include;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.\src;.\include;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
+    </QtMoc>
     <ClInclude Include="src\DialogPrivate.hpp" />
     <QtMoc Include="include\TitleBar.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.\src;.\include;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>

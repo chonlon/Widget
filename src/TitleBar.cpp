@@ -73,4 +73,4 @@ void lon::TitleBar::onButtonClicked() {
     data_->onButtonClicked(pButton);
 }
 
-inline lon::TitleBar::~TitleBar() = default;
+lon::TitleBar::~TitleBar() = default;

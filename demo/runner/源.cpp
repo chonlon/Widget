@@ -1,6 +1,8 @@
 #include <QApplication>
 #include "messagebox.h"
 #include "Window.h"
+#include "Dialog.h"
+#include "ShadowWindow.h"
 
 using namespace  lon;
 
@@ -14,5 +16,12 @@ int main(int argc, char** argv) {
 
     lon::MessageBox messagebox{"Ok", "hello"};
     messagebox.show();
+
+    lon::Dialog dialog;
+    dialog.exec();
+
+    lon::ShadowWindow shadow;
+    shadow.resize(400, 600);
+    shadow.show();
     app.exec();
 }
