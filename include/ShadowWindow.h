@@ -59,6 +59,7 @@ public:
         window_->setCloseFunc(std::move(val));
     }
 
+    void setStyleSheet(const QString& style);
 signals:
     void minimizeButtonClicked();
     void maximizeButtonClicked();
@@ -67,6 +68,9 @@ signals:
 
 private:
     std::unique_ptr<Window> window_{nullptr};
+    std::unique_ptr<QWidget> content_widget_{nullptr};
+    std::unique_ptr<QVBoxLayout> content_layout_{nullptr};
+    std::unique_ptr<QVBoxLayout> main_layout_{nullptr};
 };
 
 }
