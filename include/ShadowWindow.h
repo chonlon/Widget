@@ -10,7 +10,7 @@ public:
                           TitleBar::Buttons buttons = TitleBar::Buttons::ALL);
 
     /// <summary> 返回中间栏的widget指针. </summary>
-    QWidget* centerWidget() const { return window_->centerWidget(); }
+    QWidget& centerWidget() const { return window_->centerWidget(); }
 
     /// <summary> 设置自定义的centerwidget. </summary>
     virtual bool setCenterWidget(std::unique_ptr<QWidget> widget) {

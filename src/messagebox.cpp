@@ -14,7 +14,7 @@ MessageBox::MessageBox(const QString& title, const QString& message, QWidget* pa
     center_layout_p_->addWidget(text_label_p_);
     center_layout_p_->addStretch();
 
-    centerWidget()->setLayout(center_layout_p_);
+    centerWidget().setLayout(center_layout_p_);
 
     this->setWindowFlag(Qt::Dialog);
     this->setAttribute(Qt::WA_DeleteOnClose);

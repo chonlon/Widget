@@ -22,8 +22,9 @@ namespace lon {
 struct TitleBarPrivate : QObject {
 Q_OBJECT
 public:
-    TitleBarPrivate(gsl::not_null<TitleBar*> (parent))
+    TitleBarPrivate(gsl::not_null<TitleBar*> (parent), TitleBar::Buttons button)
         : parent_(parent) {
+        initTitleBar(button);
     }
 
     // 点击最大化按钮以后需要更新一些控件

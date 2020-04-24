@@ -5,6 +5,7 @@
 #include <QSizeGrip>
 #include <QtWidgets>
 #include <Window.h>
+#include <gsl/gsl>
 
 using lon::Window;
 using lon::TitleBar;
@@ -16,8 +17,14 @@ Q_OBJECT
 private:
     Window* parent_;
 public:
-    WindowPrivate(Window* parent)
+    WindowPrivate(gsl::not_null<Window*> parent, TitleBar::Buttons status)
         : parent_{parent} {
+        parent_->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowMinimizeButtonHint);
+        title_bar_ = std::make_unique<TitleBar>(parent_, status);
+
+        initWidgets();
+        initLayout();
+        initConnect();
     }
 
     unique_ptr<TitleBar> title_bar_{nullptr};
@@ -50,7 +57,10 @@ public:
             &TitleBar::maximizeButtonClicked,
             parent_,
             &Window::maximizeButtonClicked);
-        connect(title_bar_.get(), &TitleBar::closeButtonClicked, parent_, &Window::closeButtonClicked);
+        connect(title_bar_.get(),
+                &TitleBar::closeButtonClicked,
+                parent_,
+                &Window::closeButtonClicked);
     }
 
     void initWidgets() {
@@ -105,10 +115,16 @@ public:
         //判断图片是否为空
         if (!pixmap || pixmap->isNull()) {
             qDebug() << tr("illege arguments, your image is empty") << __FILE__ << "\n";
-          
+
         }
         pixmap_ = std::move(pixmap);
         parent_->updateBackground();
+    }
+
+    TitleBar& titleBar() const { return *title_bar_; }
+
+    QWidget& centerWidget() const {
+        return *center_widget_;
     }
 
     void setMinFunc(std::function<void()>&& val) const {

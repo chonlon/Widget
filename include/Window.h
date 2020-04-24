@@ -56,8 +56,8 @@ public:
 
     ~Window() override;
 
-    /// <summary> 返回中间栏的widget指针. </summary>
-    QWidget* centerWidget() const;
+    QWidget& centerWidget() const;
+    TitleBar& titleBar() const;
 
     /// <summary> 设置自定义的centerwidget. </summary>
     virtual bool setCenterWidget(std::unique_ptr<QWidget> widget);
@@ -101,39 +101,6 @@ signals:
     void sizeChanged(QResizeEvent* event);
 };
 
-
-
-class ShadowWindow : public QWidget {
-Q_OBJECT
-public:
-    explicit ShadowWindow(QWidget* contentWidget, QWidget* parent = nullptr)
-        : QWidget(parent) {
-        setWindowFlags(Qt::FramelessWindowHint);     // 去掉边框
-        setAttribute(Qt::WA_TranslucentBackground);  // 背景透明
-
-        // 添加阴影
-        QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(contentWidget);
-        shadowEffect->setColor(Qt::lightGray);
-        shadowEffect->setBlurRadius(6);  // 阴影的大小
-        shadowEffect->setOffset(0, 0);
-        contentWidget->setGraphicsEffect(shadowEffect);
-
-        // 添加到窗口中
-        QVBoxLayout* layout = new QVBoxLayout(this);
-        layout->addWidget(contentWidget);
-        layout->setContentsMargins(4, 4, 4, 4);  // 注意和阴影大小的协调
-        setLayout(layout);
-        connect(contentWidget,
-                SIGNAL(sizeChanged(QResizeEvent*)),
-                this,
-                SLOT(sizeChanged(QResizeEvent*)));
-    }
-
-public slots:
-    void sizeChanged(QResizeEvent* event) {
-        this->resize(event->size().width() + 8, event->size().height() + 8);
-    }
-};
 }  // namespace lon
 
 #endif

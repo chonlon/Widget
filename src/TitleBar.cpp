@@ -1,5 +1,6 @@
 #include "TitleBar.h"
 #include "TitleBarPrivate.hpp"
+#include <gsl/gsl>
 
 void lon::TitleBar::mouseDoubleClickEvent(QMouseEvent* event) {
     Q_UNUSED(event);
@@ -40,8 +41,7 @@ bool lon::TitleBar::eventFilter(QObject* obj, QEvent* event) {
 
 lon::TitleBar::TitleBar(QWidget* parent, Buttons button)
     : QWidget(parent),
-      data_{std::make_unique<lon::TitleBarPrivate>(this)} {
-    data_->initTitleBar(button);
+      data_{std::make_unique<lon::TitleBarPrivate>(this, button)} {
 }
 
 void lon::TitleBar::setTitle(const QString& title) {
@@ -53,6 +53,7 @@ void lon::TitleBar::setTitleIcon(const QIcon& icon) {
 }
 
 void lon::TitleBar::setBackground(std::unique_ptr<QPixmap> pixmap) {
+    Expects(pixmap != nullptr);
     data_->setBackground(std::move(pixmap));
 }
 
