@@ -20,6 +20,7 @@ public:
     WindowPrivate(gsl::not_null<Window*> parent, TitleBar::Buttons status)
         : parent_{parent} {
         parent_->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowMinimizeButtonHint);
+        // todo move to init list
         title_bar_ = std::make_unique<TitleBar>(parent_, status);
 
         initWidgets();
@@ -27,16 +28,7 @@ public:
         initConnect();
     }
 
-    unique_ptr<TitleBar> title_bar_{nullptr};
-    unique_ptr<QSizeGrip> size_grip_{nullptr};
-
-    QGridLayout* p_layout_{nullptr};
-
-    bool size_girp_enabled{false};
-
-    unique_ptr<QPixmap> pixmap_{nullptr};
-    unique_ptr<QWidget> center_widget_{std::make_unique<QWidget>()};
-
+    
     void initLayout() {
         p_layout_ = new QGridLayout(parent_);
         p_layout_->setSpacing(0);
@@ -138,4 +130,14 @@ public:
     void setCloseFunc(std::function<void()>&& val) const {
         title_bar_->setCloseFunc(std::move(val));
     }
+
+    unique_ptr<TitleBar> title_bar_{nullptr};
+    unique_ptr<QSizeGrip> size_grip_{nullptr};
+
+    QGridLayout* p_layout_{nullptr};
+
+    bool size_girp_enabled{false};
+
+    unique_ptr<QPixmap> pixmap_{nullptr};
+    unique_ptr<QWidget> center_widget_{std::make_unique<QWidget>()};
 };

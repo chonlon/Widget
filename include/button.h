@@ -20,7 +20,8 @@ private:
     std::shared_ptr<QIcon> pressed_icon_;
 
     double scaling_factor_;
-
+    QString button_text_;
+    QPoint draw_text_position_;
 protected:
     /// <summary>
     /// 鼠标进入按钮事件, 改变图标为focus.
@@ -87,6 +88,12 @@ protected:
         this->setIconSize(QSize(this->width() * scaling_factor_, this->height() * scaling_factor_));
     }
 
+    // void paintEvent(QPaintEvent* event) override {
+    //     QPushButton::paintEvent(event);
+    //     QPainter painter(this);
+    //     painter.drawText(draw_text_position_, button_text_);
+    // }
+
 public:
     /// <summary>
     /// 设置默认按钮图标.
@@ -97,11 +104,7 @@ public:
     /// <param name: parent> 用于设置当前Button的parent </param>
     Button(QWidget* parent = nullptr)
         : QPushButton(parent),
-          scaling_factor_(0.8),
-          normal_icon_{std::make_shared<QIcon>("normal.png")},
-          focus_icon_{std::make_shared<QIcon>("focus.png")},
-          pressed_icon_{std::make_shared<QIcon>("pressed.png")} {
-        this->setIcon(*normal_icon_);
+          scaling_factor_(0.8) {
     }
 
 
@@ -147,11 +150,10 @@ public:
         pressed_icon_ = std::move(pressed);
     }
 
-    virtual ~Button() {
-        normal_icon_ = nullptr;
-        focus_icon_ = nullptr;
-        pressed_icon_ = nullptr;
-    }
+    // void setText(const QString& text, QPoint draw_text_position = {3, 3}) {
+    //     button_text_ = text;
+    //     draw_text_position_ = draw_text_position;
+    // }
 };
 } // namespace lon
 #endif

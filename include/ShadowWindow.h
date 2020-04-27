@@ -67,10 +67,13 @@ signals:
 
 
 private:
-    std::unique_ptr<Window> window_{nullptr};
-    std::unique_ptr<QWidget> content_widget_{nullptr};
-    std::unique_ptr<QVBoxLayout> content_layout_{nullptr};
-    std::unique_ptr<QVBoxLayout> main_layout_{nullptr};
+    QVBoxLayout content_layout_{nullptr};
+    QVBoxLayout main_layout_{this};
+    // fixme 这里的layout的删除会导致崩溃.
+    // layout will take ownship
+    Window* window_{nullptr};
+    QWidget* content_widget_{nullptr};
+    
 };
 
 }
