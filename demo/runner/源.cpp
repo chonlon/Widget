@@ -19,8 +19,8 @@ public:
         shadow.setBackground(std::make_unique<QPixmap>(
             "D:\\1_code\\1_Cpp\\3_1_mine\\temp\\tomatoclock\\bin\\res\\gui\\Res\\Img\\background.png"));
         shadow.enableSizeGrip();
-
-        normal_shadow.setStyleSheet("QWidget#content_widget{background-color:lightgray}");
+        normal_shadow.setWidgetBackGround(Qt::red);
+        
         normal_shadow.enableSizeGrip();
 
         w_button.setText("Widget");
@@ -76,7 +76,7 @@ private:
     Window widget;
     Dialog dialog;
     ShadowWindow shadow;
-    ShadowWindow normal_shadow;
+    ShadowWindow normal_shadow{nullptr, Qt::green};
 
     QVBoxLayout layout;
     Button w_button;
@@ -93,6 +93,16 @@ int main(int argc, char** argv) {
     DisplayWidget w;
     w.resize(600, 400);
     w.show();
+
+    auto shadow_box_ = new ShadowBox{gsl::owner<lon::Window*>(new lon::Window)};
+    shadow_box_->setWidgetBackGround(Qt::green);
+    shadow_box_->resize(400, 400);
+    shadow_box_->show();
+
+    ShadowBox s{new QWidget};
+    s.setWidgetBackGround(Qt::red);
+    s.resize(400, 400);
+    s.show();
 
     app.exec();
 }

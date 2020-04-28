@@ -28,7 +28,7 @@ public:
         initConnect();
     }
 
-    
+
     void initLayout() {
         p_layout_ = new QGridLayout(parent_);
         p_layout_->setSpacing(0);
@@ -56,16 +56,16 @@ public:
     }
 
     void initWidgets() {
-        pixmap_ = nullptr;
-        QPalette palette;
-        palette.setBrush(parent_->backgroundRole(), QBrush(QColor(255, 255, 255, 30)));
-        title_bar_->setPalette(palette);
+        //pixmap_ = nullptr;
     }
 
     void paintEvent(QPaintEvent* event) const {
         QPainter painter(parent_);
-        if (pixmap_)
+        if (pixmap_) {
             painter.drawPixmap(QRect{0, 0, parent_->width(), parent_->height()}, *pixmap_);
+            event->accept();
+        }
+
     }
 
 

@@ -1,12 +1,39 @@
 ﻿#pragma once
 #include "Window.h"
+#include <gsl/gsl>
 
 namespace lon {
+/*TODO:
+ *1. ShadowWindow类重用ShadowBox代码.
+ *2. 仍然使用unique_ptr, 注意顺序.
+ */
+
+
+/**
+ * \brief 一个简单的包装widget并给widget 附上shadow的容器, ShadowBox的窗口默认背景是亮灰色.
+ */
+class ShadowBox : public QWidget {
+public:
+    explicit ShadowBox(gsl::not_null<gsl::owner<QWidget*>> content,
+                       QColor color = Qt::lightGray,
+                       int shadow_width = 20);
+
+    void setWidgetBackGround(const QColor& color) const;
+
+private:
+
+    QWidget* content_widget_{nullptr};
+    QWidget* container_widget_{nullptr};
+    QVBoxLayout* content_layout_{nullptr};
+    gsl::owner<QVBoxLayout*> main_layout_{nullptr};
+};
 
 class ShadowWindow : public QWidget {
 Q_OBJECT
 public:
     explicit ShadowWindow(QWidget* parent = nullptr,
+                          QColor color = Qt::lightGray,
+                          int shadow_width = 20,
                           TitleBar::Buttons buttons = TitleBar::Buttons::ALL);
 
     /// <summary> 返回中间栏的widget指针. </summary>
@@ -59,7 +86,7 @@ public:
         window_->setCloseFunc(std::move(val));
     }
 
-    void setStyleSheet(const QString& style);
+    void setWidgetBackGround(const QColor& color) const;
 signals:
     void minimizeButtonClicked();
     void maximizeButtonClicked();
@@ -67,13 +94,11 @@ signals:
 
 
 private:
-    QVBoxLayout content_layout_{nullptr};
-    QVBoxLayout main_layout_{this};
-    // fixme 这里的layout的删除会导致崩溃.
-    // layout will take ownship
     Window* window_{nullptr};
-    QWidget* content_widget_{nullptr};
-    
+    ShadowBox* shadow_box_{};
+
+    QVBoxLayout* main_layout_{nullptr};
 };
+
 
 }
