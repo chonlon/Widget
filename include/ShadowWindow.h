@@ -3,6 +3,8 @@
 #include <gsl/gsl>
 
 namespace lon {
+// fixme: 已知问题: 最大化以及调整大小时会有使用上的不协调问题(阴影也算到窗口里面了, 所以屏幕边界处会有问题.) 
+
 
 /**
  * \brief 一个简单的包装widget并给widget 附上shadow的容器, ShadowBox的窗口默认背景是亮灰色.
