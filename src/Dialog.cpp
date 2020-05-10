@@ -1,13 +1,14 @@
 #include "Dialog.h"
 #include "DialogPrivate.hpp"
 
-lon::Dialog::Dialog(QWidget* parent) : QDialog(parent)
+lon::Dialog::Dialog(QWidget* parent, int types) : QDialog(parent)
 {
-    data_ = std::make_unique<DialogPrivate>();
-    data_->inner_window = std::make_unique<lon::Window>(this, TitleBar::Buttons::CLOSE_MIN);
-    this->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowMinimizeButtonHint);
-    this->resize(400, 300);
-    data_->inner_window->setGeometry(0, 0, 400, 300);
+    data_ = std::make_unique<DialogPrivate>(this, types);
 }
 
 lon::Dialog::~Dialog() = default;
+
+void lon::Dialog::setCenterWidget(gsl::not_null<QWidget*> widget) const {
+    data_->setCenterWidget(widget);
+}
+

@@ -76,7 +76,7 @@ public:
 
 private:
     Window widget;
-    Dialog dialog;
+    Dialog dialog{nullptr, Dialog::Ok | Dialog::Cancel};
     ShadowWindow shadow;
     ShadowWindow normal_shadow{nullptr, Qt::green, Qt::red};
 

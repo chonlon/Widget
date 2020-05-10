@@ -4,6 +4,7 @@ lon::Button::Button(QWidget* parent)
     : QPushButton(parent),
       scaling_factor_(0.8) {
     setCurrentIcon(CurrentIconStatus::Normal);
+    this->setFlat(true);
 }
 
 lon::Button::Button(std::shared_ptr<QIcon> normal_icon,
@@ -16,6 +17,7 @@ lon::Button::Button(std::shared_ptr<QIcon> normal_icon,
     focus_icon_ = std::move(focus_icon);
     pressed_icon_ = std::move(pressed_icon);
     setCurrentIcon(CurrentIconStatus::Normal);
+    this->setFlat(true);
 }
 
 void lon::Button::setScalingFactor(double factor) {
