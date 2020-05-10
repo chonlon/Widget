@@ -94,7 +94,7 @@ int main(int argc, char** argv) {
     DisplayWidget *w;
     try {
         w = new DisplayWidget{};
-    } catch (std::bad_alloc) {
+    } catch (std::bad_alloc& e) {
         std::cout << "out of memory usage";
         w = nullptr;
     }
