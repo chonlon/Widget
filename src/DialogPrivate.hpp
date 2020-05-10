@@ -28,12 +28,12 @@ public:
         center_widget = new QWidget{inner_window};
         
         initButtons(types);
-        auto content_widget = std::make_unique<QWidget>();
-        main_layout = new QVBoxLayout{content_widget.get()};
+        auto content_widget = new QWidget();
+        main_layout = new QVBoxLayout{content_widget};
         main_layout->addWidget(center_widget, 1);
         main_layout->addLayout(bottom_layout, 0);
         main_layout->setSpacing(0);
-        inner_window->setCenterWidget(std::move(content_widget));
+        inner_window->setCenterWidget(content_widget);
 
         parent_->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowMinimizeButtonHint);
         parent_->resize(400, 300);

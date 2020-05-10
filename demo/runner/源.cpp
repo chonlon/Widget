@@ -1,9 +1,11 @@
 #include <QApplication>
 #include <iostream>
+#include <QLabel>
 #include "messagebox.h"
 #include "Window.h"
 #include "Dialog.h"
 #include "ShadowWindow.h"
+
 
 
 using namespace lon;
@@ -12,7 +14,7 @@ class DisplayWidget : public QWidget {
 public:
     DisplayWidget() {
         // Q_INIT_RESOURCE(lon_widget);
-        widget.enableSizeGrip();
+        widget.setSizeGripEnable();
         widget.setTitleBackground(std::make_unique<QPixmap>(":/icon/Resources/back.png"));
 
 
@@ -20,10 +22,10 @@ public:
 
         shadow.setBackground(std::make_unique<QPixmap>(
             "D:\\1_code\\1_Cpp\\3_1_mine\\temp\\tomatoclock\\bin\\res\\gui\\Res\\Img\\background.png"));
-        shadow.enableSizeGrip();
+        shadow.setSizeGripEnable();
         normal_shadow.setWidgetBackGround(Qt::red);
         
-        normal_shadow.enableSizeGrip();
+        normal_shadow.setSizeGripEnable();
 
         w_button.setText("Window");
         w_button.setFlat(true);
@@ -32,7 +34,12 @@ public:
         m_button.setText("MessageBox");
         w_button.setNormal(std::make_shared<QIcon>(":/icon/Resources/button.png"));
         n_button.setText("normal shadow");
-
+        QWidget *w1{new QWidget{}};
+        QLabel *w2{new QLabel{"test test"}};
+        promoted_window = promoteToWindow(w1);
+        promoted_shadow_window = promoteToShadowWindow(w2);
+        promote_window_button.setText(u8"提升窗口");
+        promote_shadow_window_button.setText(u8"提升阴影窗口");
 
         connect(&w_button,
                 &QPushButton::clicked,
@@ -64,6 +71,14 @@ public:
                 {
                     normal_shadow.show();
                 });
+        connect(&promote_window_button, &QPushButton::clicked, [this]()
+        {
+            promoted_window->show();
+        });
+        connect(&promote_shadow_window_button, &QPushButton::clicked, [this]()
+        {
+            promoted_shadow_window->show();
+        });
 
         layout.setSpacing(0);
         layout.addWidget(&w_button);
@@ -71,6 +86,9 @@ public:
         layout.addWidget(&s_button);
         layout.addWidget(&m_button);
         layout.addWidget(&n_button);
+        layout.addWidget(&promote_window_button);
+        layout.addWidget(&promote_shadow_window_button);
+
         this->setLayout(&layout);
     }
 
@@ -79,6 +97,8 @@ private:
     Dialog dialog{nullptr, Dialog::Ok | Dialog::Cancel};
     ShadowWindow shadow;
     ShadowWindow normal_shadow{nullptr, Qt::green, Qt::red};
+    std::unique_ptr<Window> promoted_window;
+    std::unique_ptr<ShadowWindow> promoted_shadow_window;
 
     QVBoxLayout layout;
     Button w_button;
@@ -86,6 +106,8 @@ private:
     Button s_button;
     Button m_button;
     Button n_button;
+    Button promote_window_button;
+    Button promote_shadow_window_button;
 };
 
 int main(int argc, char** argv) {

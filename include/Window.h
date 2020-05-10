@@ -6,6 +6,7 @@
 #include <QSizeGrip>
 #include <QGraphicsDropShadowEffect>
 #include <QVBoxLayout>
+#include <gsl/pointers>
 class WindowPrivate;
 class QLayout;
 
@@ -24,14 +25,15 @@ namespace lon {
 
 
 class Window : public QWidget {
-    Q_OBJECT
+Q_OBJECT
 private:
     friend class WindowPrivate;
     std::unique_ptr<WindowPrivate> data_{nullptr};
 
 private:
     // 禁用setlayout, 只允许操作centerWidget和botttomWidget.
-    virtual void setLayout(QLayout*) {}
+    virtual void setLayout(QLayout*) {
+    }
 
     void initLayout() const;
 
@@ -42,6 +44,7 @@ private:
     void updateBackground() {
         update();
     }
+
 protected:
     void resizeEvent(QResizeEvent* event) override {
         return QWidget::resizeEvent(event);
@@ -52,7 +55,9 @@ protected:
 public:
     explicit Window(QWidget* parent = nullptr, TitleBar::Buttons status = TitleBar::Buttons::ALL);
 
-    explicit Window(std::unique_ptr<QWidget> center_widget, QWidget* parent, TitleBar::Buttons status = TitleBar::Buttons::ALL);
+    explicit Window(gsl::not_null<gsl::owner<QWidget*>> center_widget,
+                    QWidget* parent = nullptr,
+                    TitleBar::Buttons status = TitleBar::Buttons::ALL);
 
     ~Window() override;
 
@@ -60,7 +65,7 @@ public:
     TitleBar& titleBar() const;
 
     /// <summary> 设置自定义的centerwidget. </summary>
-    virtual bool setCenterWidget(std::unique_ptr<QWidget> widget);
+    bool Window::setCenterWidget(gsl::not_null<gsl::owner<QWidget*>> widget);
 
     virtual void setTitle(const QString& title);
 
@@ -69,7 +74,7 @@ public:
     // this class will take pixmap's ownship
     virtual void setTitleBackground(std::unique_ptr<QPixmap> pixmap);
 
-    virtual void enableSizeGrip();
+    virtual void setSizeGripEnable(bool enable = true);
 
     virtual bool sizeGripEnabled();
 
@@ -101,6 +106,15 @@ signals:
     void sizeChanged(QResizeEvent* event);
 };
 
-}  // namespace lon
+/**
+ * \brief 将一个非空widget提升为Window, 对于很多已存在的widget或者dialog, 直接使用此函数提升为统一风格的无边框Window.
+ * \param widget 非空, 并且获取指针所有权.
+ * \param status 显示的按钮.
+ */
+inline std::unique_ptr<Window> promoteToWindow(gsl::not_null<gsl::owner<QWidget*>> widget,
+                                               TitleBar::Buttons status = TitleBar::Buttons::ALL) {
+    return std::make_unique<Window>(widget, nullptr, status);
+}
+} // namespace lon
 
 #endif

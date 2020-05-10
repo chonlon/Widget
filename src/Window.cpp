@@ -29,7 +29,9 @@ Window::Window(QWidget* parent, TitleBar::Buttons status)
       data_{std::make_unique<WindowPrivate>(this, status)} {
 }
 
-Window::Window(std::unique_ptr<QWidget> center_widget, QWidget* parent, TitleBar::Buttons status)
+Window::Window(gsl::not_null<gsl::owner<QWidget*>> center_widget,
+               QWidget* parent,
+               TitleBar::Buttons status)
     : Window(parent, status) {
     Expects(center_widget != nullptr);
 
@@ -47,9 +49,9 @@ TitleBar& Window::titleBar() const {
 }
 
 
-bool Window::setCenterWidget(std::unique_ptr<QWidget> widget) {
+bool Window::setCenterWidget(gsl::not_null<gsl::owner<QWidget*>> widget) {
     Expects(widget != nullptr);
-    return data_->setCenterWidget(std::move(widget));
+    return data_->setCenterWidget(widget);
 }
 
 
@@ -66,8 +68,8 @@ void Window::setTitleBackground(unique_ptr<QPixmap> pixmap) {
     data_->setTitleBackground(std::move(pixmap));
 }
 
-void Window::enableSizeGrip() {
-    data_->enableSizeGrip();
+void Window::setSizeGripEnable(bool enable) {
+    data_->setSizeGripEnable(enable);
 }
 
 bool Window::sizeGripEnabled() {
