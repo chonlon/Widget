@@ -27,7 +27,7 @@ private:
     QWidget* content_widget_{nullptr};
     QWidget* container_widget_{nullptr};
     QVBoxLayout* content_layout_{nullptr};
-    gsl::owner<QVBoxLayout*> main_layout_{nullptr};
+    QVBoxLayout* main_layout_{nullptr};
 };
 
 
