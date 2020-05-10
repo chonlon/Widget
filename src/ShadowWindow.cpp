@@ -2,19 +2,20 @@
 
 
 lon::ShadowBox::ShadowBox(gsl::not_null<gsl::owner<QWidget*>> content,
-                          QColor color,
+                          QColor shadow_color,
+                          QColor background_color,
                           int shadow_width)
     : content_widget_(content) {
     main_layout_ = new QVBoxLayout{this};
 
-    setWindowFlags(Qt::FramelessWindowHint); // 去掉边框
+    setWindowFlags(Qt::FramelessWindowHint);    // 去掉边框
     setAttribute(Qt::WA_TranslucentBackground); // 背景透明
 
     {
-        auto shadowEffect = [&color, this, shadow_width]()
+        auto shadowEffect = [&shadow_color, this, shadow_width]()
         {
             const auto shadowEffect = new QGraphicsDropShadowEffect(content_widget_);
-            shadowEffect->setColor(color);
+            shadowEffect->setColor(shadow_color);
             shadowEffect->setBlurRadius(shadow_width); // 阴影的大小
             shadowEffect->setOffset(0, 0);
             return shadowEffect;
@@ -30,8 +31,8 @@ lon::ShadowBox::ShadowBox(gsl::not_null<gsl::owner<QWidget*>> content,
             content_layout_ = new QVBoxLayout{container_widget};
             return container_widget;
         }();
-        this->setWidgetBackGround(Qt::blue);
-        
+        this->setWidgetBackGround(background_color);
+
         content_layout_->addWidget(gsl::owner<QWidget*>(content_widget_));
         content_layout_->setMargin(0);
     }
@@ -54,10 +55,10 @@ void lon::ShadowBox::setWidgetBackGround(const QColor& color) const {
 }
 
 lon::ShadowWindow::ShadowWindow(QWidget* parent,
-                                QColor color,
+                                QColor shadow_color,
+                                QColor background_color,
                                 int shadow_width,
-                                TitleBar::Buttons buttons)   
-{
+                                TitleBar::Buttons buttons) {
     main_layout_ = new QVBoxLayout(this);
     main_layout_->setMargin(0);
 
@@ -65,9 +66,10 @@ lon::ShadowWindow::ShadowWindow(QWidget* parent,
     setAttribute(Qt::WA_TranslucentBackground); // 背景透明
 
     window_ = new Window{nullptr, buttons};
-    
 
-    shadow_box_ = new ShadowBox{gsl::owner<lon::Window*>(window_), color, shadow_width};
+
+    shadow_box_ = new ShadowBox{gsl::owner<lon::Window*>(window_), shadow_color, background_color,
+                                shadow_width};
     main_layout_->addWidget(gsl::owner<ShadowWindow*>(shadow_box_));
 }
 

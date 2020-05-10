@@ -1,8 +1,10 @@
 #include <QApplication>
+#include <iostream>
 #include "messagebox.h"
 #include "Window.h"
 #include "Dialog.h"
 #include "ShadowWindow.h"
+
 
 using namespace lon;
 
@@ -23,7 +25,7 @@ public:
         
         normal_shadow.enableSizeGrip();
 
-        w_button.setText("Widget");
+        w_button.setText("Window");
         w_button.setFlat(true);
         s_button.setText("ShadowWindow");
         d_button.setText("Dialog");
@@ -76,7 +78,7 @@ private:
     Window widget;
     Dialog dialog;
     ShadowWindow shadow;
-    ShadowWindow normal_shadow{nullptr, Qt::green};
+    ShadowWindow normal_shadow{nullptr, Qt::green, Qt::red};
 
     QVBoxLayout layout;
     Button w_button;
@@ -89,20 +91,18 @@ private:
 int main(int argc, char** argv) {
     QApplication app(argc, argv);
     Q_INIT_RESOURCE(lon_widget);
-
-    DisplayWidget w;
-    w.resize(600, 400);
-    w.show();
-
-    auto shadow_box_ = new ShadowBox{gsl::owner<lon::Window*>(new lon::Window)};
-    shadow_box_->setWidgetBackGround(Qt::green);
-    shadow_box_->resize(400, 400);
-    shadow_box_->show();
-
-    ShadowBox s{new QWidget};
-    s.setWidgetBackGround(Qt::red);
-    s.resize(400, 400);
-    s.show();
+    DisplayWidget *w;
+    try {
+        w = new DisplayWidget{};
+    } catch (std::bad_alloc) {
+        std::cout << "out of memory usage";
+        w = nullptr;
+    }
+    if(w) {
+        w->resize(600, 400);
+        w->show();
+    }
+    
 
     app.exec();
 }

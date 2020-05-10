@@ -3,11 +3,6 @@
 #include <gsl/gsl>
 
 namespace lon {
-/*TODO:
- *1. ShadowWindow类重用ShadowBox代码.
- *2. 仍然使用unique_ptr, 注意顺序.
- */
-
 
 /**
  * \brief 一个简单的包装widget并给widget 附上shadow的容器, ShadowBox的窗口默认背景是亮灰色.
@@ -15,9 +10,14 @@ namespace lon {
 class ShadowBox : public QWidget {
 public:
     explicit ShadowBox(gsl::not_null<gsl::owner<QWidget*>> content,
-                       QColor color = Qt::lightGray,
+                       QColor shadow_color = Qt::lightGray,
+                       QColor background_color = Qt::lightGray,
                        int shadow_width = 20);
 
+    /**
+     * \brief 设置widget的背景颜色, 由于包装器需要设置为透明, 所以默认有一个亮灰色的背景. 注意: 颜色只设置到包装器这一层, 如果传入的widget是带背景的, 那么不会影响显示.
+     * \param color [in] 背景颜色.
+     */
     void setWidgetBackGround(const QColor& color) const;
 
 private:
@@ -28,11 +28,16 @@ private:
     gsl::owner<QVBoxLayout*> main_layout_{nullptr};
 };
 
+
+/**
+ * \brief An shadowed Window, wrap functions to lon::Window.
+ */
 class ShadowWindow : public QWidget {
 Q_OBJECT
 public:
     explicit ShadowWindow(QWidget* parent = nullptr,
-                          QColor color = Qt::lightGray,
+                          QColor shadow_color = Qt::lightGray,
+                          QColor background_color = Qt::lightGray,
                           int shadow_width = 20,
                           TitleBar::Buttons buttons = TitleBar::Buttons::ALL);
 
@@ -95,10 +100,11 @@ signals:
 
 private:
     Window* window_{nullptr};
-    ShadowBox* shadow_box_{};
+    ShadowBox* shadow_box_{nullptr};
 
     QVBoxLayout* main_layout_{nullptr};
 };
+
 
 
 }

@@ -71,7 +71,7 @@ void Window::enableSizeGrip() {
 }
 
 bool Window::sizeGripEnabled() {
-    return data_->size_girp_enabled;
+    return data_->size_grip_enabled;
 }
 
 void Window::setBackground(unique_ptr<QPixmap> pixmap) {
