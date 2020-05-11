@@ -19,21 +19,8 @@ private:
 public:
     WindowPrivate(gsl::not_null<Window*> parent, TitleBar::Buttons status)
         : parent_{parent} {
-        // todo move to init list
-        title_bar_ = new TitleBar(parent_, status);
-        center_widget_ = new QWidget(parent_);
-        initWidgets();
-        initLayout();
+        initWidgets(status);
         initConnect();
-    }
-
-
-    void initLayout() {
-        p_layout_ = new QGridLayout(parent_);
-        p_layout_->setSpacing(0);
-        p_layout_->addWidget(title_bar_, 0, 0, 1, 2);
-        p_layout_->addWidget(center_widget_, 1, 0, 1, 2);
-        p_layout_->setContentsMargins(0, 0, 0, 0);
     }
 
 
@@ -54,16 +41,28 @@ public:
                 &Window::closeButtonClicked);
     }
 
-    void initWidgets() const {
-        parent_->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowMinimizeButtonHint);        
+    void initWidgets(TitleBar::Buttons status) {
+        title_bar_ = new TitleBar(parent_, status);
+        center_widget_ = new QWidget();
+        parent_->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowMinimizeButtonHint);
+        initLayout();
     }
 
-    void paintEvent(QPaintEvent* event) const {        
+    void initLayout() {
+        p_layout_ = new QGridLayout(parent_);
+        p_layout_->setSpacing(0);
+        p_layout_->addWidget(title_bar_, 0, 0, 1, 2);
+        p_layout_->addWidget(center_widget_, 1, 0, 1, 2);
+        p_layout_->setContentsMargins(0, 0, 0, 0);
+    }
+
+
+    void paintEvent(QPaintEvent* event) const {
         if (pixmap_) {
             QPainter painter(parent_);
             painter.drawPixmap(QRect{0, 0, parent_->width(), parent_->height()}, *pixmap_);
             event->accept();
-        }       
+        }
     }
 
 
@@ -73,7 +72,6 @@ public:
 
         p_layout_->removeWidget(center_widget_);
 
-        
 
         if (widget)
             p_layout_->addWidget(widget, 1, 0);
@@ -95,13 +93,16 @@ public:
     }
 
     void setSizeGripEnable(bool enable) {
-        if(enable) {
-           if(size_grip_) size_grip_->setVisible(true);
-           else enableSizeGrip();
+        if (enable) {
+            if (size_grip_)
+                size_grip_->setVisible(true);
+            else
+                enableSizeGrip();
         } else {
-           if(size_grip_) size_grip_->setVisible(false);
+            if (size_grip_)
+                size_grip_->setVisible(false);
         }
-        
+
     }
 
     void enableSizeGrip() {

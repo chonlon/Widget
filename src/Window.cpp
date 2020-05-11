@@ -15,10 +15,6 @@ void Window::initConnect() const {
     data_->initConnect();
 }
 
-void Window::initWidgets() const {
-    data_->initWidgets();
-}
-
 void Window::paintEvent(QPaintEvent* event) {
     data_->paintEvent(event);
     return QWidget::paintEvent(event);
