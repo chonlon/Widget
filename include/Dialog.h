@@ -16,5 +16,4 @@ private:
     friend class DialogPrivate;
     std::unique_ptr<DialogPrivate> data_;
 };
-
 }

@@ -1,4 +1,4 @@
-#include <QApplication>
+ï»¿#include <QApplication>
 #include <iostream>
 #include <QLabel>
 #include "messagebox.h"
@@ -34,12 +34,15 @@ public:
         m_button.setText("MessageBox");
         w_button.setNormal(std::make_shared<QIcon>(":/icon/Resources/button.png"));
         n_button.setText("normal shadow");
-        QWidget *w1{new QWidget{}};
-        QLabel *w2{new QLabel{"test test"}};
+        QLabel *w1{new QLabel{"test test"}};
         promoted_window = promoteToWindow(w1);
+        QMessageBox *w2 = new QMessageBox;
+        w2->setWindowTitle("11");
+        w2->setText("22");
         promoted_shadow_window = promoteToShadowWindow(w2);
-        promote_window_button.setText(u8"ÌáÉý´°¿Ú");
-        promote_shadow_window_button.setText(u8"ÌáÉýÒõÓ°´°¿Ú");
+        promoted_shadow_window->resize(400, 300);
+        promote_window_button.setText(u8"æå‡çª—å£");
+        promote_shadow_window_button.setText(u8"æå‡é˜´å½±çª—å£");
 
         connect(&w_button,
                 &QPushButton::clicked,
@@ -75,8 +78,9 @@ public:
         {
             promoted_window->show();
         });
-        connect(&promote_shadow_window_button, &QPushButton::clicked, [this]()
+        connect(&promote_shadow_window_button, &QPushButton::clicked, [this, w2]()
         {
+            w2->exec();
             promoted_shadow_window->show();
         });
 

@@ -55,7 +55,6 @@ public:
 
     virtual void setTitleIcon(const QIcon& icon) { window_->setTitleIcon(icon); }
 
-    // this class will take pixmap's ownship
     virtual void setTitleBackground(std::unique_ptr<QPixmap> pixmap) {
         window_->setTitleBackground(std::move(pixmap));
     }
@@ -64,7 +63,6 @@ public:
 
     virtual bool sizeGripEnabled() { return window_->sizeGripEnabled(); }
 
-    // this class will take pixmap's ownship
     virtual void setBackground(std::unique_ptr<QPixmap> pixmap) {
         window_->setBackground(std::move(pixmap));
     }
@@ -109,7 +107,7 @@ private:
 
 
 /**
- * \brief 将一个非空widget提升为带阴影的Window, 对于很多已存在的widget或者dialog, 直接使用此函数提升为统一风格的无边框带阴影Window.
+ * \brief 将一个非空widget提升为带阴影的Window, 对于很多已存在的widget或者dialog, 直接使用此函数提升为统一风格的无边框带阴影Window. 注意, 这个提升是非侵入式的, 并不会改变原Widget. 你依然可以保留原指针对其进行操作.
  * \param widget 非空指针, 获得所有权.
  * \param shadow_color 阴影颜色.
  * \param background_color 窗口背景颜色.

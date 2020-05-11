@@ -40,7 +40,7 @@ public:
         inner_window->setGeometry(0, 0, 400, 300);
         QObject::connect(inner_window, &ShadowWindow::closeButtonClicked, [this]()
         {
-            parent_->reject();  
+            parent_->reject();
         });
         parent_->setAttribute(Qt::WA_TranslucentBackground);
     }

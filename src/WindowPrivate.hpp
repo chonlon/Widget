@@ -21,6 +21,7 @@ public:
         : parent_{parent} {
         // todo move to init list
         title_bar_ = new TitleBar(parent_, status);
+        center_widget_ = new QWidget(parent_);
         initWidgets();
         initLayout();
         initConnect();
@@ -115,13 +116,15 @@ public:
         //判断图片是否为空
         if (!pixmap || pixmap->isNull()) {
             qDebug() << tr("illege arguments, your image is empty") << __FILE__ << "\n";
-
         }
         pixmap_ = std::move(pixmap);
         parent_->updateBackground();
     }
 
-    TitleBar& titleBar() const { return *title_bar_; }
+    TitleBar& titleBar() const {
+        Ensures(title_bar_);
+        return *title_bar_;
+    }
 
     QWidget& centerWidget() const {
         return *center_widget_;

@@ -11,16 +11,13 @@ class WindowPrivate;
 class QLayout;
 
 namespace lon {
-/// 统一样式的widget订制.
-/// 其实也只是一个简单的封装.
-/// 如果某些地方不符合需要, 可以自定义窗口,
-/// 但是务必使用lon::TitleBar以保持统一风格.
-// 因为不是很确定bottom的界面具体情况, 如果是需要在默认的情况下绑定信号与槽的话
-// 需要使用bottomBar()函数获得bottomBar的指针
+// 其实也只是一个简单的封装.
+// 如果某些地方不符合需要, 可以自定义窗口,
+// 但是务必使用lon::TitleBar以保持统一风格.
+
 /// <summary>
 /// 统一样式的Widget.
-/// 不允许自己定义layout(因为会破环titlebar),
-/// 只允许对centerWidget和botttomWidget进行操作(包括替换).
+/// 不允许自己定义layout(因为会破环titlebar)
 ///	</summary>
 
 
@@ -31,7 +28,7 @@ private:
     std::unique_ptr<WindowPrivate> data_{nullptr};
 
 private:
-    // 禁用setlayout, 只允许操作centerWidget和botttomWidget.
+    // 禁用setlayout, 只允许操作centerWidget.
     virtual void setLayout(QLayout*) {
     }
 
