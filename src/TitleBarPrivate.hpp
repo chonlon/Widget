@@ -78,7 +78,7 @@ public:
             button->setStyleSheet("border:none");
             button->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
             button->setObjectName("minimizeButton");
-            button->setToolTip("最小化");
+            button->setToolTip(tool_tip);
         };
 
         //初始化最小化按钮
