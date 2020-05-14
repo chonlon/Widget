@@ -20,7 +20,6 @@ constexpr int32_t TITLE_BAR_HEIGHT = 50;
 namespace lon {
 
 struct TitleBarPrivate : QObject {
-Q_OBJECT
 public:
     TitleBarPrivate(gsl::not_null<TitleBar*> (parent), TitleBar::Buttons button)
         : parent_(parent) {

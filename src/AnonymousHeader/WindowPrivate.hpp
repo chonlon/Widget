@@ -13,7 +13,6 @@ using lon::Button;
 using std::unique_ptr;
 
 class WindowPrivate : QObject {
-Q_OBJECT
 private:
     Window* parent_;
 public:

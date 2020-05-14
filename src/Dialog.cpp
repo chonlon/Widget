@@ -11,4 +11,3 @@ lon::Dialog::~Dialog() = default;
 void lon::Dialog::setCenterWidget(gsl::not_null<QWidget*> widget) const {
     data_->setCenterWidget(widget);
 }
-
