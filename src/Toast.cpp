@@ -14,6 +14,7 @@ auto getTextSize(gsl::not_null<QLabel*> label) {
     return QSize{rect.width(), rect.height()};
 }
 
+
 lon::Toast::Toast(const QString& msg, QWidget* parent)
     : QWidget(parent) {
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
@@ -24,12 +25,11 @@ lon::Toast::Toast(const QString& msg, QWidget* parent)
     label_->setWordWrap(false);
 
     Expects(label_);
-    setFixedSize(getTextSize(label_));
+    setFixedSize(getTextSize(label_) + 15);
 
     main_layout_->addWidget(label_);
-    main_layout_->setContentsMargins(0, 0, 0, 0);
+    main_layout_->setContentsMargins(5, 0, 0, 0);
 
-    this->setFixedHeight(FixedHeight);
 
     connect(&timer_, &QTimer::timeout, this, &lon::Toast::updateRender);
     timer_.setInterval(2000);
@@ -58,7 +58,7 @@ void lon::Toast::popUp(const QPoint& point) {
     raise();
     show();
 
-    QPropertyAnimation* animation = new QPropertyAnimation(this, "windowOpacity", this);
+    auto animation = new QPropertyAnimation(this, "windowOpacity", this);
     animation->setDuration(500);
     animation->setStartValue(0);
     animation->setEndValue(1);
@@ -68,7 +68,7 @@ void lon::Toast::popUp(const QPoint& point) {
 void lon::Toast::setFont(const QFont font) {
     Expects(label_);
     label_->setFont(font);
-    setFixedSize(getTextSize(label_));
+    setFixedSize(getTextSize(label_) + 15);
 }
 
 void lon::Toast::paintEvent(QPaintEvent* event) {

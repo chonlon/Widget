@@ -16,5 +16,9 @@ inline auto operator*(const QRect& lhs, const double& rhs) -> QRect {
 auto getDesktopGeometry() -> QRect {
     return QApplication::desktop()->screenGeometry();
 }
+
+auto operator+(const QSize& lhs, const int& rhs) -> QSize {
+    return {lhs.width() + rhs, lhs.height() + rhs};
+}
 }
 }
