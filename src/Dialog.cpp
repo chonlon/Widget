@@ -1,4 +1,4 @@
-#include "Dialog.h"
+﻿#include "Dialog.h"
 #include "DialogPrivate.hpp"
 
 lon::Dialog::Dialog(QWidget* parent, int types) : QDialog(parent)

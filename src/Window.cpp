@@ -1,4 +1,4 @@
-#include "Window.h"
+﻿#include "Window.h"
 #include "WindowPrivate.hpp"
 #include <exception>
 #include <QtGui/qpixmap.h>

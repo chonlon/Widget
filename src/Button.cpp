@@ -1,4 +1,4 @@
-#include <button.h>
+﻿#include <button.h>
 
 lon::Button::Button(QWidget* parent)
     : QPushButton(parent),

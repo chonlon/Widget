@@ -1,4 +1,4 @@
-#include "TitleBar.h"
+﻿#include "TitleBar.h"
 #include "TitleBarPrivate.hpp"
 #include <gsl/gsl>
 

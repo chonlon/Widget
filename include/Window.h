@@ -18,7 +18,7 @@ namespace lon {
 /// <summary>
 /// 统一样式的Widget.
 /// 不允许自己定义layout(因为会破环titlebar)
-///	</summary>
+/// </summary>
 
 
 class Window : public QWidget {
