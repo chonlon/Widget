@@ -7,11 +7,10 @@
 
 namespace lon {
 /// <summary>
-/// PushButton的一个封装, 提供简单的设置PushButton三态的方法, 并且可以设置缩放因子以满足不同
-/// 大小要求.
+/// flat button, 提供设置三态图标设置方法, 方便管理对应的图标.
 /// </summary>
 class Button : public QPushButton {
-Q_OBJECT
+    Q_OBJECT
 
 public:
     /// <summary>
@@ -87,7 +86,6 @@ private:
     auto setCurrentIcon(CurrentIconStatus status) -> void;
 
     auto drawCurrentIcon() -> void;
-
 };
-} // namespace lon
+}  // namespace lon
 #endif

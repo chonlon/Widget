@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Dialog.h"
 #include <ShadowWindow.h>
 #include <QLabel>
@@ -26,7 +26,7 @@ public:
         inner_window = new lon::ShadowWindow(parent_, Qt::lightGray, Qt::lightGray,  20,TitleBar::Buttons::CLOSE_MIN);
         layout->addWidget(inner_window);
         center_widget = new QWidget{inner_window};
-        
+
         initButtons(types);
         auto content_widget = new QWidget();
         main_layout = new QVBoxLayout{content_widget};
@@ -55,7 +55,7 @@ private:
         bottom_layout = new QHBoxLayout{};
         if(types | Dialog::Ok) {
             ok_button = new Button{center_widget};
-            ok_button->setText(u8"È·ÈÏ");
+            ok_button->setText(u8"ç¡®è®¤");
             bottom_layout->addWidget(ok_button);
             QObject::connect(ok_button, &QPushButton::clicked, [this]()
             {
@@ -66,11 +66,11 @@ private:
         if(types | Dialog::Cancel) {
             bottom_layout->addSpacerItem(new QSpacerItem{10, 0, QSizePolicy::Expanding, QSizePolicy::Minimum});
             cancel_button = new Button{center_widget};
-            cancel_button->setText(u8"È¡Ïû");
+            cancel_button->setText(u8"å–æ¶ˆ");
             bottom_layout->addWidget(cancel_button);
             QObject::connect(cancel_button, &QPushButton::clicked, [this]()
             {
-                parent_->reject();    
+                parent_->reject();
             });
         }
     }
