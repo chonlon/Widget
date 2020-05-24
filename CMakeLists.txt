@@ -12,6 +12,7 @@ find_package(Qt5 COMPONENTS Core Gui Widgets)
 set(HeadDir ${CMAKE_CURRENT_LIST_DIR}/include)
 set(SrcDir ${CMAKE_CURRENT_LIST_DIR}/src)
 
+
 set(BuildDemo OFF CACHE BOOL "Add Build Demo.")
 set(BuildTest OFF CACHE BOOL "Add Build Test.")
 
@@ -44,7 +45,7 @@ set(LonWidgetSrc
 	lon_widget.qrc
 )
 
-
+message("debug current header " ${HeadDir}/3dpart)
 
 include_directories(${HeadDir} ${HeadDir}/3dpart ${SrcDir} ${SrcDir}/AnonymousHeader)
 
