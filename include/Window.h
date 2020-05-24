@@ -25,7 +25,7 @@ class Window : public QWidget {
 Q_OBJECT
 private:
     friend class WindowPrivate;
-    std::unique_ptr<WindowPrivate> data_{nullptr};
+    std::unique_ptr<WindowPrivate> data_;
 
 private:
     // 禁用setlayout, 只允许操作centerWidget.
@@ -62,7 +62,7 @@ public:
     TitleBar& titleBar() const;
 
     /// <summary> 设置自定义的centerwidget. </summary>
-    bool Window::setCenterWidget(gsl::not_null<gsl::owner<QWidget*>> widget);
+    bool setCenterWidget(gsl::not_null<gsl::owner<QWidget*>> widget);
 
     virtual void setTitle(const QString& title);
 
