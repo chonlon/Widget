@@ -11,6 +11,7 @@ using lon::Window;
 using lon::TitleBar;
 using lon::Button;
 using std::unique_ptr;
+namespace lon {
 
 class WindowPrivate : QObject {
 private:
@@ -152,3 +153,5 @@ public:
     unique_ptr<QPixmap> pixmap_{nullptr};
     QWidget* center_widget_{nullptr};
 };
+
+}

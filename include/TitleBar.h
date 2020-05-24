@@ -10,7 +10,6 @@
 
 namespace lon {
 class TitleBarPrivate;
-
 class TitleBar : public QWidget {
 Q_OBJECT
 public:

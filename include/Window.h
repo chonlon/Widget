@@ -7,10 +7,10 @@
 #include <QGraphicsDropShadowEffect>
 #include <QVBoxLayout>
 #include <gsl/pointers>
-class WindowPrivate;
 class QLayout;
 
 namespace lon {
+class WindowPrivate;
 // 其实也只是一个简单的封装.
 // 如果某些地方不符合需要, 可以自定义窗口,
 // 但是务必使用lon::TitleBar以保持统一风格.
