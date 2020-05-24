@@ -45,8 +45,6 @@ set(LonWidgetSrc
 	lon_widget.qrc
 )
 
-message("debug current header " ${HeadDir}/3dpart)
-
 include_directories(${HeadDir} ${HeadDir}/3dpart ${SrcDir} ${SrcDir}/AnonymousHeader)
 
 add_library(LonWidgetLib STATIC ${LonWidgetHeader} ${LonWidgetSrc})

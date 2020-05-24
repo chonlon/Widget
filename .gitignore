@@ -45,11 +45,12 @@
 !*.cmake
 !*CMakeLists.txt
 
-
 #igore qt generate files
 ui*.h
 *moc*.h
 *qrc*.cpp
+
+!/include/**/**
 
 *[Dd]ebug
 *[Rr]elease
