@@ -5,6 +5,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_CXX_STANDARD 17)
 
 #include_directories(${CMAKE_CURRENT_LIST_DIR})
 find_package(Qt5 COMPONENTS Core Gui Widgets)
