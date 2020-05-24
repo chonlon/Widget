@@ -8,7 +8,6 @@
 
 #pragma execution_character_set("utf-8")
 
-
 namespace lon {
 class TitleBarPrivate;
 
@@ -90,7 +89,6 @@ private:
     friend class TitleBarPrivate;
     std::unique_ptr<TitleBarPrivate> data_;
 };
-
 
 } // namespace lon
 
