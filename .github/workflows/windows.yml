@@ -81,4 +81,4 @@ jobs:
           mkdir build
           cd build
           cmake .. -DQt5_DIR=${env:QtPath}
-          msbuild cmake_subdir.sln -p:Configuration=Release
+          msbuild lon_widget.sln -p:Configuration=Release
