@@ -58,7 +58,7 @@ void lon::Toast::popUp(const QPoint& point) {
     raise();
     show();
 
-    auto animation = new QPropertyAnimation(this, "windowOpacity", this);
+    auto animation = new QPropertyAnimation(this, "windowOpacity");
     animation->setDuration(500);
     animation->setStartValue(0);
     animation->setEndValue(1);
@@ -81,7 +81,7 @@ void lon::Toast::paintEvent(QPaintEvent* event) {
 
 void lon::Toast::updateRender() {
     timer_.stop();
-    auto animation = new QPropertyAnimation(this, "windowOpacity", this);
+    auto animation = new QPropertyAnimation(this, "windowOpacity");
     animation->setDuration(1000);
     animation->setStartValue(1);
     animation->setEndValue(0);
