@@ -43,7 +43,7 @@ set(LonWidgetSrc
 	${SrcDir}/Button.cpp
 	${SrcDir}/Toast.cpp
 	${SrcDir}/Dialog.cpp
-	lon_widget.qrc
+	${CMAKE_CURRENT_LIST_DIR}/lon_widget.qrc
 )
 
 include_directories(${HeadDir} ${HeadDir}/3dpart ${SrcDir} ${SrcDir}/AnonymousHeader)
