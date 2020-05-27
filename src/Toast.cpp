@@ -7,6 +7,7 @@
 #include <gsl/gsl>
 
 constexpr int FixedHeight = 35;
+constexpr int SpacingWidth = 15;
 
 auto getTextSize(gsl::not_null<QLabel*> label) {
     QFontMetrics font_metrics(label->font());
@@ -25,7 +26,7 @@ lon::Toast::Toast(const QString& msg, QWidget* parent)
     label_->setWordWrap(false);
 
     Expects(label_);
-    setFixedSize(getTextSize(label_) + 15);
+    setFixedSize(getTextSize(label_) + SpacingWidth);
 
     main_layout_->addWidget(label_);
     main_layout_->setContentsMargins(5, 0, 0, 0);
@@ -68,7 +69,7 @@ void lon::Toast::popUp(const QPoint& point) {
 void lon::Toast::setFont(const QFont font) {
     Expects(label_);
     label_->setFont(font);
-    setFixedSize(getTextSize(label_) + 15);
+    setFixedSize(getTextSize(label_) + SpacingWidth);
 }
 
 void lon::Toast::paintEvent(QPaintEvent* event) {
